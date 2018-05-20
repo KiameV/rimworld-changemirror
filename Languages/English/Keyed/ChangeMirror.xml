@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<!-- Window Labels -->
+	<ChangeMirror.MirrorLabel>Mirror</ChangeMirror.MirrorLabel>
+	
+	<!-- Common Strings -->
+	<ChangeMirror.Cancel>Cancel</ChangeMirror.Cancel>
+	<ChangeMirror.SelectAll>Select All</ChangeMirror.SelectAll>
+	<ChangeMirror.DeselectAll>Deselect All</ChangeMirror.DeselectAll>
+	
+	<!-- Editor Names (top selection bar in the Mirror window) -->
+	<ChangeMirrorHair>Hair Style/Color</ChangeMirrorHair>
+	<ChangeMirrorApparelColor>Apparel Color</ChangeMirrorApparelColor>
+	<ChangeMirrorBody>Body</ChangeMirrorBody>
+	<ChangeMirrorAlienSkinColor>Alien Skin Color</ChangeMirrorAlienSkinColor>
+	<ChangeMirrorAlienHairColor>Alien Hair Color</ChangeMirrorAlienHairColor>
+	
+	<!-- Mirror UI -->
+	<ChangeMirror.BodyType>Body Type</ChangeMirror.BodyType>
+	<ChangeMirror.HeadType>Head Type</ChangeMirror.HeadType>
+	<ChangeMirror.SkinColor>Skin Color</ChangeMirror.SkinColor>
+	<ChangeMirror.Gender>Gender</ChangeMirror.Gender>
+	<ChangeMirror.HairStyle>Hair Style</ChangeMirror.HairStyle>
+	<ChangeMirror.AgeBiological>Biological Age</ChangeMirror.AgeBiological>
+	<ChangeMirror.AgeChronological>Chronological Age</ChangeMirror.AgeChronological>
+	<ChangeMirror.AlienPrimarySkinColor>Primary Skin Color</ChangeMirror.AlienPrimarySkinColor>
+	<ChangeMirror.AlienSecondarySkinColor>Secondary Skin Color</ChangeMirror.AlienSecondarySkinColor>
+	<ChangeMirror.AlienPrimaryHairColor>Primary Hair Color</ChangeMirror.AlienPrimaryHairColor>
+	<ChangeMirror.AlienSecondaryHairColor>Secondary Hair Color</ChangeMirror.AlienSecondaryHairColor>
+		
+	<!-- Color Selection -->
+	<!-- These refer to the Red (R), Green (G), and Blue (B) values for the selected color -->
+	<ChangeMirror.R>R</ChangeMirror.R>
+	<ChangeMirror.G>G</ChangeMirror.G>
+	<ChangeMirror.B>B</ChangeMirror.B>
+	<!-- These refer to the Hue (H), Saturation (S), and Lightness (L) values for the selected color -->
+	<ChangeMirror.H>Hue</ChangeMirror.H>
+	<ChangeMirror.S>Saturation</ChangeMirror.S>
+	<ChangeMirror.L>Lightness</ChangeMirror.L>
+	
+	<!-- Help Text -->
+	<ChangeMirror.RemoveToEnableDelete>Remove All Apparel To Enable Delete</ChangeMirror.RemoveToEnableDelete>
+	<ChangeMirror.GenderChangeWarning>Changing these values may have adverse effects.\nUse at own risk.</ChangeMirror.GenderChangeWarning>
+	<ChangeMirror.SelectMultipleApparel>Hold Shift and click another\nitem to select multiple.</ChangeMirror.SelectMultipleApparel>
+	<ChangeMirror.ColorPresetHelp>Change: Hold shift and select a preset.\nUnselect: Hold shift and select the same preset.</ChangeMirror.ColorPresetHelp>
+	<ChangeMirror.NoClothingIsWorn>No clothing is being worn.</ChangeMirror.NoClothingIsWorn>
+	<ChangeMirror.NoEditableAttributes>No attributes can be changed for this alien race</ChangeMirror.NoEditableAttributes>
+	
+	<!-- Job Toils -->
+	<ChangeMirror.ChangeApparelColors>Change apparel colors</ChangeMirror.ChangeApparelColors>
+	<ChangeMirror.ChangeHair>Change hair style/color</ChangeMirror.ChangeHair>
+	<ChangeMirror.ChangeBody>Change body attributes</ChangeMirror.ChangeBody>
+	<ChangeMirror.ChangeAlienBodyColor>Change alien body color</ChangeMirror.ChangeAlienBodyColor>
+	
+	<!-- Error Messages -->
+	<!-- The text after this string is either Hair Color or Apparel Color -->
+	<ChangeMirror.ProblemSavingPreset>Problem while saving Color Presets for</ChangeMirror.ProblemSavingPreset>
+	<!-- The text after this string is either Hair Color or Apparel Color -->
+	<ChangeMirror.ProblemLoadingPreset>Problem while loading Color Presets for</ChangeMirror.ProblemLoadingPreset>
+	<!-- The text before this string is the pawn's name. -->
+	<ChangeMirror.AlreadyHasCombatApparel>already has combat apparel.</ChangeMirror.AlreadyHasCombatApparel>
+	
+	<!-- Mod Settings -->
+	<ChangeMirror>Change Mirror</ChangeMirror>
+	<ChangeMirror.ShowBodyChange>Allow Body Change</ChangeMirror.ShowBodyChange>
+	<ChangeMirror.ShowGenderAgeChange>Allow Gender and Age Change</ChangeMirror.ShowGenderAgeChange>
+</LanguageData>

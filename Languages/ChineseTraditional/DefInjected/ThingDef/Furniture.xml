@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <ChangeMirror.label>穿衣鏡</ChangeMirror.label>
+  <ChangeMirror.description>化妝和染發。</ChangeMirror.description>
+  <ChangeMirror_Blueprint.label>穿衣鏡（藍圖）</ChangeMirror_Blueprint.label>
+  <ChangeMirror_Blueprint_Install.label>穿衣鏡（藍圖）</ChangeMirror_Blueprint_Install.label>
+  <ChangeMirror_Frame.label>穿衣鏡（建造中）</ChangeMirror_Frame.label>
+  <ChangeMirror_Frame.description>化妝和染發。</ChangeMirror_Frame.description>
+</LanguageData>

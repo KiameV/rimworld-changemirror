@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+	<!-- Window Labels -->
+	<ChangeMirror.MirrorLabel>Mirror</ChangeMirror.MirrorLabel>
+	<ChangeMirror.ApparelGroupLabel>Группа одежды</ChangeMirror.ApparelGroupLabel>
+	<ChangeMirror.ApparelStorageLabel>Хранилище одежды</ChangeMirror.ApparelStorageLabel>
+	
+	<!-- Common Strings -->
+	<ChangeMirror.Cancel>Отменить</ChangeMirror.Cancel>
+	<ChangeMirror.SelectAll>Выбрать все</ChangeMirror.SelectAll>
+	<ChangeMirror.DeselectAll>Отменить выбор</ChangeMirror.DeselectAll>
+	
+	<!-- Editor Names (top selection bar in the Dresser window) -->
+	<ChangeDresserHair>Прическа/цвет</ChangeDresserHair>
+	<ChangeDresserApparelColor>Цвет одежды</ChangeDresserApparelColor>
+	<ChangeDresserBody>Тело</ChangeDresserBody>
+	
+	<!-- Dresser UI -->
+	<ChangeMirror.BodyType>Тип тела</ChangeMirror.BodyType>
+	<ChangeMirror.HeadType>Тип головы</ChangeMirror.HeadType>
+	<ChangeMirror.SkinColor>Цвет кожи</ChangeMirror.SkinColor>
+	<ChangeMirror.Gender>Пол</ChangeMirror.Gender>
+	<ChangeMirror.HairStyle>Прическа</ChangeMirror.HairStyle>
+	<ChangeMirror.AgeBiological>Возраст</ChangeMirror.AgeBiological>
+	<ChangeMirror.AgeChronological>Псих. возраст</ChangeMirror.AgeChronological>
+	
+	<!-- Color Selection -->
+	<!-- These refer to the Red (R), Green (G), and Blue (B) values for the selected color -->
+	<ChangeMirror.R>R</ChangeMirror.R>
+	<ChangeMirror.G>G</ChangeMirror.G>
+	<ChangeMirror.B>B</ChangeMirror.B>
+	
+	<!-- Help Text -->
+	<ChangeMirror.RemoveToEnableDelete>Убрать одежду для удаления</ChangeMirror.RemoveToEnableDelete>
+	<ChangeMirror.GenderChangeWarning>Изменение этих значений может иметь последствия.\на ваш риск.</ChangeMirror.GenderChangeWarning>
+	<ChangeMirror.SelectMultipleApparel>Зажмите SHIFT и нажмите ЛКМ для выделения нескольких видов одежды.</ChangeMirror.SelectMultipleApparel>
+	<ChangeMirror.ColorPresetHelp>Изменить: Зажмите SHIFT и ПКМ.\Отменить выбор: Зажать SHIFT и выбрать тот же пресет.</ChangeMirror.ColorPresetHelp>
+	<ChangeMirror.NoClothingIsWorn>Одежда не изнашивается.</ChangeMirror.NoClothingIsWorn>
+	
+	<!-- Job Toils -->
+	<ChangeMirror.ChangeApparelColors>Изменить цвет одежды</ChangeMirror.ChangeApparelColors>
+	<ChangeMirror.ChangeHair>Изменить прическу/цвет</ChangeMirror.ChangeHair>
+	<ChangeMirror.ChangeBody>Изменить тело</ChangeMirror.ChangeBody>
+	
+	<!-- Error Messages -->
+	<!-- The text after this string is either Hair Color or Apparel Color -->
+	<ChangeMirror.ProblemSavingPreset>Ошибка сохранения пресета</ChangeMirror.ProblemSavingPreset>
+	<!-- The text after this string is either Hair Color or Apparel Color -->
+	<ChangeMirror.ProblemLoadingPreset>Ошибка загрузки пресета</ChangeMirror.ProblemLoadingPreset>
+	<!-- The text before this string is the pawn's name. Text after this string is the apparel group's name -->
+	<ChangeMirror.UnableToWearApparelGroup>Невозможно носить одежду</ChangeMirror.UnableToWearApparelGroup>
+	<!-- The text before this string is the pawn's name. -->
+	<ChangeMirror.AlreadyHasCombatApparel>Уже есть боевая одежда.</ChangeMirror.AlreadyHasCombatApparel>
+	
+	<!-- Mod Settings -->
+	<ChangeMirror>Change Mirror</ChangeMirror>
+	<ChangeMirror.ShowBodyChange>Разрешить изменение тела</ChangeMirror.ShowBodyChange>
+	<ChangeMirror.ShowGenderAgeChange>Разрешить изменить возраст и пол</ChangeMirror.ShowGenderAgeChange>
+</LanguageData>

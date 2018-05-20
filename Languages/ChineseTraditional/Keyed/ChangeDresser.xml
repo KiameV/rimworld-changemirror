@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <!-- Window Labels -->
+  <ChangeMirror.MirrorLabel>Mirror</ChangeMirror.MirrorLabel>
+  <!-- Common Strings -->
+  <ChangeMirror.Cancel>取消</ChangeMirror.Cancel>
+  <ChangeMirror.SelectAll>全選</ChangeMirror.SelectAll>
+  <ChangeMirror.DeselectAll>取消全部</ChangeMirror.DeselectAll>
+  <!-- Editor Names (top selection bar in the Dresser window) -->
+  <ChangeDresserHair>髮型/發色</ChangeDresserHair>
+  <ChangeDresserApparelColor>裝備顏色</ChangeDresserApparelColor>
+  <ChangeDresserBody>身體特徵</ChangeDresserBody>
+  <ChangeDresserAlienSkinColor>外星人膚色</ChangeDresserAlienSkinColor>
+  <ChangeDresserAlienHairColor>外星人發色</ChangeDresserAlienHairColor>
+  <!-- Mirror UI -->
+  <ChangeMirror.BodyType>體形</ChangeMirror.BodyType>
+  <ChangeMirror.HeadType>臉型</ChangeMirror.HeadType>
+  <ChangeMirror.SkinColor>膚色</ChangeMirror.SkinColor>
+  <ChangeMirror.Gender>性別</ChangeMirror.Gender>
+  <ChangeMirror.HairStyle>髮型</ChangeMirror.HairStyle>
+  <ChangeMirror.AgeBiological>生理年齡</ChangeMirror.AgeBiological>
+  <ChangeMirror.AgeChronological>物理年齡</ChangeMirror.AgeChronological>
+  <ChangeMirror.AlienPrimarySkinColor>主要膚色</ChangeMirror.AlienPrimarySkinColor>
+  <ChangeMirror.AlienSecondarySkinColor>次要膚色</ChangeMirror.AlienSecondarySkinColor>
+  <ChangeMirror.AlienPrimaryHairColor>主要發色</ChangeMirror.AlienPrimaryHairColor>
+  <ChangeMirror.AlienSecondaryHairColor>次要發色</ChangeMirror.AlienSecondaryHairColor>
+  <!-- Color Selection -->
+  <!-- These refer to the Red (R), Green (G), and Blue (B) values for the selected color -->
+  <ChangeMirror.R>R</ChangeMirror.R>
+  <ChangeMirror.G>G</ChangeMirror.G>
+  <ChangeMirror.B>B</ChangeMirror.B>
+  <!-- These refer to the Hue (H), Saturation (S), and Lightness (L) values for the selected color -->
+  <ChangeMirror.H>色調</ChangeMirror.H>
+  <ChangeMirror.S>飽和度</ChangeMirror.S>
+  <ChangeMirror.L>亮度</ChangeMirror.L>
+  <!-- Help Text -->
+  <ChangeMirror.RemoveToEnableDelete>移除所有服裝後才可刪除方案。</ChangeMirror.RemoveToEnableDelete>
+  <ChangeMirror.GenderChangeWarning>改變性別和年齡可能有不利影響。\n請自行斟酌。</ChangeMirror.GenderChangeWarning>
+  <ChangeMirror.SelectMultipleApparel>按住Shift並單擊另一個\n道具來選擇多個。</ChangeMirror.SelectMultipleApparel>
+  <ChangeMirror.ColorPresetHelp>修改：按住Shift並選擇一個預設。\n取消選擇：按住Shift並選擇當前預設。</ChangeMirror.ColorPresetHelp>
+  <ChangeMirror.NoClothingIsWorn>沒有穿戴中的服裝。</ChangeMirror.NoClothingIsWorn>
+  <ChangeMirror.NoEditableAttributes>該外星人種族無法改變任何屬性。</ChangeMirror.NoEditableAttributes>
+  <!-- Job Toils -->
+  <ChangeMirror.ChangeApparelColors>改變服裝顏色</ChangeMirror.ChangeApparelColors>
+  <ChangeMirror.ChangeHair>改變髮型或發色</ChangeMirror.ChangeHair>
+  <ChangeMirror.ChangeBody>改變身體特徵</ChangeMirror.ChangeBody>
+  <ChangeMirror.ChangeAlienBodyColor>改變外星人膚色</ChangeMirror.ChangeAlienBodyColor>
+  <!-- Error Messages -->
+  <!-- The text after this string is either Hair Color or Apparel Color -->
+  <ChangeMirror.ProblemSavingPreset>存儲以下顏色預設方案時出錯：</ChangeMirror.ProblemSavingPreset>
+  <!-- The text after this string is either Hair Color or Apparel Color -->
+  <ChangeMirror.ProblemLoadingPreset>加載以下顏色預設方案時出錯：</ChangeMirror.ProblemLoadingPreset>
+  <!-- The text before this string is the pawn's name. -->
+  <ChangeMirror.AlreadyHasCombatApparel>已經擁有戰鬥服裝。</ChangeMirror.AlreadyHasCombatApparel>
+  <!-- Mod Settings -->
+  <ChangeMirror>Change Mirror 梳妝檯</ChangeMirror>
+  <ChangeMirror.ShowBodyChange>允許改變身體特徵</ChangeMirror.ShowBodyChange>
+  <ChangeMirror.ShowGenderAgeChange>允許改變性別和年齡</ChangeMirror.ShowGenderAgeChange>
+</LanguageData>

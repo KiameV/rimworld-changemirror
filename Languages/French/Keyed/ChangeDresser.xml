@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<!-- Window Labels -->
+	<ChangeMirror.MirrorLabel>Mirror</ChangeMirror.MirrorLabel>
+	
+	<!-- Common Strings -->
+	<ChangeMirror.Cancel>Annuler</ChangeMirror.Cancel>
+	<ChangeMirror.SelectAll>Sélectionner tout</ChangeMirror.SelectAll>
+	<ChangeMirror.DeselectAll>Désélectionner tout</ChangeMirror.DeselectAll>
+	
+	<!-- Editor Names (top selection bar in the Dresser window) -->
+	<ChangeDresserHair>Cheveux Style/Couleur</ChangeDresserHair>
+	<ChangeDresserApparelColor>Vêtements Couleur</ChangeDresserApparelColor>
+	<ChangeDresserBody>Corps</ChangeDresserBody>
+	
+	<!-- Mirror UI -->
+	<ChangeMirror.BodyType>Type de Corps</ChangeMirror.BodyType>
+	<ChangeMirror.HeadType>Type de Tête</ChangeMirror.HeadType>
+	<ChangeMirror.SkinColor>Couleur de peau</ChangeMirror.SkinColor>
+	<ChangeMirror.Gender>Sexe</ChangeMirror.Gender>
+	<ChangeMirror.HairStyle>Coupeu de cheveux</ChangeMirror.HairStyle>
+	<ChangeMirror.AgeBiological>Age biologique</ChangeMirror.AgeBiological>
+	<ChangeMirror.AgeChronological>Age chronologique</ChangeMirror.AgeChronological>
+	
+	<!-- Color Selection -->
+	<!-- These refer to the Red (R), Green (G), and Blue (B) values for the selected color -->
+	<ChangeMirror.R>R</ChangeMirror.R>
+	<ChangeMirror.G>G</ChangeMirror.G>
+	<ChangeMirror.B>B</ChangeMirror.B>
+	
+	<!-- Help Text -->
+	<ChangeMirror.RemoveToEnableDelete>Retirer tout vêtement pour activer la suppression</ChangeMirror.RemoveToEnableDelete>
+	<ChangeMirror.GenderChangeWarning>Changer ces valeurs peut avoir des effets négatifs.\nA utiliser avec précaution.</ChangeMirror.GenderChangeWarning>
+	<ChangeMirror.SelectMultipleApparel>Garder Shift enfoncé et cliquer sur un autre\nobjet pour en sélectionner plusieurs.</ChangeMirror.SelectMultipleApparel>
+	<ChangeMirror.ColorPresetHelp>Change: Garder Shift enfoncé et sélectionner un ensemble.\nDéselectionner: Garder Shift enfoncé et sélectionner le même ensemble.</ChangeMirror.ColorPresetHelp>
+	<ChangeMirror.NoClothingIsWorn>Aucun vêtement n'est usé.</ChangeMirror.NoClothingIsWorn>
+	
+	<!-- Job Toils -->
+	<ChangeMirror.ChangeApparelColors>Changer la couleur des vêtements</ChangeMirror.ChangeApparelColors>
+	<ChangeMirror.ChangeHair>Changer Cheveux style/couleur</ChangeMirror.ChangeHair>
+	<ChangeMirror.ChangeBody>Changer le corps</ChangeMirror.ChangeBody>
+	
+	<!-- Error Messages -->
+	<!-- The text after this string is either Hair Color or Apparel Color -->
+	<ChangeMirror.ProblemSavingPreset>Problème lors de la sauvegarde des ensembles de couleurs pour</ChangeMirror.ProblemSavingPreset>
+	<!-- The text after this string is either Hair Color or Apparel Color -->
+	<ChangeMirror.ProblemLoadingPreset>Problème lors du chargement des ensembles de couleur pour</ChangeMirror.ProblemLoadingPreset>
+	<!-- The text before this string is the pawn's name. Text after this string is the apparel group's name -->
+	<ChangeMirror.UnableToWearApparelGroup>incapable de trouver le groupe de vêtements</ChangeMirror.UnableToWearApparelGroup>
+	<!-- The text before this string is the pawn's name. -->
+	<ChangeMirror.AlreadyHasCombatApparel>déjà équipé des vêtements de combat.</ChangeMirror.AlreadyHasCombatApparel>
+	
+	<!-- Mod Settings -->
+	<ChangeMirror>Change Mirror</ChangeMirror>
+	<ChangeMirror.ShowBodyChange>Autoriser les modifications du corps</ChangeMirror.ShowBodyChange>
+	<ChangeMirror.ShowGenderAgeChange>Autoriser les modifications du sexe et de l'âge</ChangeMirror.ShowGenderAgeChange>
+</LanguageData>

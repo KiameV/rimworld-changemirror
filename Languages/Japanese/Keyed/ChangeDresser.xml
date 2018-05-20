@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+  <!-- Window Labels -->
+  <ChangeMirror.MirrorLabel>Mirror</ChangeMirror.MirrorLabel>
+  <ChangeMirror.ApparelStorageLabel>服装の在庫</ChangeMirror.ApparelStorageLabel>
+
+  <!-- Common Strings -->
+  <ChangeMirror.Cancel>中止</ChangeMirror.Cancel>
+  <ChangeMirror.SelectAll>全て選択</ChangeMirror.SelectAll>
+  <ChangeMirror.DeselectAll>全て取り消す</ChangeMirror.DeselectAll>
+
+  <!-- Editor Names (top selection bar in the Dresser window) -->
+  <ChangeDresserHair>髪型/髪の色</ChangeDresserHair>
+  <ChangeDresserApparelColor>服装の色</ChangeDresserApparelColor>
+  <ChangeDresserBody>身体特徴</ChangeDresserBody>
+  <ChangeDresserAlienSkinColor>追加種族の肌色</ChangeDresserAlienSkinColor>
+  <ChangeDresserAlienHairColor>追加種族の髪色</ChangeDresserAlienHairColor>
+
+  <!-- Mirror UI -->
+  <ChangeMirror.BodyType>体型</ChangeMirror.BodyType>
+  <ChangeMirror.HeadType>顔型</ChangeMirror.HeadType>
+  <ChangeMirror.SkinColor>肌色</ChangeMirror.SkinColor>
+  <ChangeMirror.Gender>性別</ChangeMirror.Gender>
+  <ChangeMirror.HairStyle>髪型</ChangeMirror.HairStyle>
+  <ChangeMirror.AgeBiological>肉体年齢</ChangeMirror.AgeBiological>
+  <ChangeMirror.AgeChronological>暦上年齢</ChangeMirror.AgeChronological>
+  <ChangeMirror.AlienPrimarySkinColor>一番目の肌色</ChangeMirror.AlienPrimarySkinColor>
+  <ChangeMirror.AlienSecondarySkinColor>二番目の肌色</ChangeMirror.AlienSecondarySkinColor>
+  <ChangeMirror.AlienPrimaryHairColor>一番目の髪色</ChangeMirror.AlienPrimaryHairColor>
+  <ChangeMirror.AlienSecondaryHairColor>二番目の髪色</ChangeMirror.AlienSecondaryHairColor>
+
+  <!-- Color Selection -->
+  <!-- These refer to the Red (R), Green (G), and Blue (B) values for the selected color -->
+  <ChangeMirror.R>R</ChangeMirror.R>
+  <ChangeMirror.G>G</ChangeMirror.G>
+  <ChangeMirror.B>B</ChangeMirror.B>
+  <!-- These refer to the Hue (H), Saturation (S), and Lightness (L) values for the selected color -->
+  <ChangeMirror.H>色調</ChangeMirror.H>
+  <ChangeMirror.S>彩度</ChangeMirror.S>
+  <ChangeMirror.L>明度</ChangeMirror.L>
+
+  <!-- Help Text -->
+  <ChangeMirror.RemoveToEnableDelete>全ての衣服を外し削除を有効</ChangeMirror.RemoveToEnableDelete>
+  <ChangeMirror.GenderChangeWarning>これらの数値を変更すると悪影響を受ける可能性があります。\n自己責任で使用して下さい。</ChangeMirror.GenderChangeWarning>
+  <ChangeMirror.SelectMultipleApparel>Shiftキーを押して別の物をクリックすると\nアイテムを複数選択できます。</ChangeMirror.SelectMultipleApparel>
+  <ChangeMirror.ColorPresetHelp>変更：Shiftキーを押してプリセット選択\n取消：Shiftキーを押してプリセット選択</ChangeMirror.ColorPresetHelp>
+  <ChangeMirror.NoClothingIsWorn>服装は着用されていません。</ChangeMirror.NoClothingIsWorn>
+  <ChangeMirror.NoEditableAttributes>このエイリアン種族は属性を変更できません</ChangeMirror.NoEditableAttributes>
+
+  <!-- Job Toils -->
+  <ChangeMirror.ChangeApparelColors>服の色を変更</ChangeMirror.ChangeApparelColors>
+  <ChangeMirror.ChangeHair>髪型や髪色を変更</ChangeMirror.ChangeHair>
+  <ChangeMirror.ChangeBody>体型を変更</ChangeMirror.ChangeBody>
+  <ChangeMirror.ChangeAlienBodyColor>エイリアンの体色を変更</ChangeMirror.ChangeAlienBodyColor>
+
+  <!-- Error Messages -->
+  <!-- The text after this string is either Hair Color or Apparel Color -->
+  <ChangeMirror.ProblemSavingPreset>色の設定を保存中にエラーが発生：</ChangeMirror.ProblemSavingPreset>
+  <!-- The text after this string is either Hair Color or Apparel Color -->
+  <ChangeMirror.ProblemLoadingPreset>色の設定を読み込む際にエラーが発生：</ChangeMirror.ProblemLoadingPreset>
+  <!-- The text before this string is the pawn's name. -->
+  <ChangeMirror.AlreadyHasCombatApparel>すでに戦闘服に着替えています。</ChangeMirror.AlreadyHasCombatApparel>
+
+  <!-- Mod Settings -->
+  <ChangeMirror>Change Mirror</ChangeMirror>
+  <ChangeMirror.ShowBodyChange>体型の変更を許可する</ChangeMirror.ShowBodyChange>
+  <ChangeMirror.ShowGenderAgeChange>性別と年齢の変更を許可する</ChangeMirror.ShowGenderAgeChange>
+
+</LanguageData>
