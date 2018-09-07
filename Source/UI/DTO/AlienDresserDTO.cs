@@ -141,7 +141,7 @@ namespace ChangeMirror.UI.DTO
                     }
                 }
             }
-            
+
             if (this.EditorTypeSelectionDto.Contains(CurrentEditorEnum.ChangeMirrorBody))
             {
                 float maleGenderProbability = 0.5f;
@@ -183,7 +183,7 @@ namespace ChangeMirror.UI.DTO
                             fi = alienPartGenerator.GetType().GetField("alienbodytypes");
                             if (fi != null)
                             {
-                                List<BodyType> alienbodytypes = (List<BodyType>)fi.GetValue(alienPartGenerator);
+                                List<BodyTypeDef> alienbodytypes = (List<BodyTypeDef>)fi.GetValue(alienPartGenerator);
                                 if (alienbodytypes != null)
                                 {
                                     this.BodyTypeSelectionDto = new BodyTypeSelectionDTO(this.Pawn.story.bodyType, this.Pawn.gender, alienbodytypes);
@@ -225,15 +225,15 @@ namespace ChangeMirror.UI.DTO
 
         private void GenderChange(object sender)
         {
-            if (this.Pawn.story.bodyType == BodyType.Male && 
+            if (this.Pawn.story.bodyType == BodyTypeDefOf.Male &&
                 this.Pawn.gender == Gender.Male)
             {
-                this.Pawn.story.bodyType = BodyType.Female;
+                this.Pawn.story.bodyType = BodyTypeDefOf.Female;
             }
-            else if (this.Pawn.story.bodyType == BodyType.Female &&
+            else if (this.Pawn.story.bodyType == BodyTypeDefOf.Female &&
                 this.Pawn.gender == Gender.Female)
             {
-                this.Pawn.story.bodyType = BodyType.Male;
+                this.Pawn.story.bodyType = BodyTypeDefOf.Male;
             }
         }
     }

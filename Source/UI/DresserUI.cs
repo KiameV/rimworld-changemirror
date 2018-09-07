@@ -27,7 +27,6 @@ namespace ChangeMirror.UI
 
         public DresserUI(DresserDTO dresserDto)
         {
-            this.closeOnEscapeKey = true;
             this.doCloseButton = false;
             this.doCloseX = true;
             this.absorbInputAroundWindow = true;
@@ -97,7 +96,7 @@ namespace ChangeMirror.UI
                         float top = editorTop;
                         if (this.dresserDto.BodyTypeSelectionDto != null && this.dresserDto.BodyTypeSelectionDto.Count > 1)
                         {
-                            WidgetUtil.AddSelectorWidget(editorLeft, top, editorWidth, "ChangeMirror.BodyType".Translate() + ":", this.dresserDto.BodyTypeSelectionDto);
+                            WidgetUtil.AddSelectorWidget(editorLeft, top, editorWidth, "ChangeMirror.BodyTypeDef".Translate() + ":", this.dresserDto.BodyTypeSelectionDto);
                             top += WidgetUtil.SelectionRowHeight + 20f;
                             isShowing = true;
                         }
@@ -371,7 +370,7 @@ namespace ChangeMirror.UI
                 }
                 if (sender is BodyTypeSelectionDTO)
                 {
-                    pawn.story.bodyType = (BodyType)value;
+                    pawn.story.bodyType = (BodyTypeDef)value;
                 }
                 else if (sender is GenderSelectionDTO)
                 {
