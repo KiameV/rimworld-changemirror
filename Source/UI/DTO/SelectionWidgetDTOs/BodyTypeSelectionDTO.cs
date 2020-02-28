@@ -39,7 +39,21 @@ namespace ChangeMirror.UI.DTO.SelectionWidgetDTOs
         public BodyTypeSelectionDTO(BodyTypeDef bodyType, Gender gender) : base()
         {
             this.OriginalBodyType = bodyType;
+            this.Setup(bodyType, gender);
+        }
 
+        public BodyTypeSelectionDTO(
+            BodyTypeDef bodyType, Gender gender, List<BodyTypeDef> possibleBodyTypes) : base()
+        {
+            this.OriginalBodyType = bodyType;
+            if (possibleBodyTypes == null || possibleBodyTypes.Count == 0)
+                this.Setup(bodyType, gender);
+            else
+                this.Setup(bodyType, gender, possibleBodyTypes);
+        }
+
+        private void Setup(BodyTypeDef bodyType, Gender gender)
+        {
             this.maleBodyTypes = new List<BodyTypeDef>()
             {
                 BodyTypeDefOf.Male,
@@ -59,11 +73,8 @@ namespace ChangeMirror.UI.DTO.SelectionWidgetDTOs
             this.FindIndex(bodyType);
         }
 
-        public BodyTypeSelectionDTO(
-            BodyTypeDef bodyType, Gender gender, List<BodyTypeDef> possibleBodyTypes) : base()
+        private void Setup(BodyTypeDef bodyType, Gender gender, List<BodyTypeDef> possibleBodyTypes)
         {
-            this.OriginalBodyType = bodyType;
-
             this.maleBodyTypes = new List<BodyTypeDef>(possibleBodyTypes.Count - 1);
             this.femaleBodyTypes = new List<BodyTypeDef>(possibleBodyTypes.Count - 1);
             foreach (BodyTypeDef bt in possibleBodyTypes)

@@ -64,4 +64,5 @@
 	<ChangeMirror>Change Mirror</ChangeMirror>
 	<ChangeMirror.ShowBodyChange>Allow Body Change</ChangeMirror.ShowBodyChange>
 	<ChangeMirror.ShowGenderAgeChange>Allow Gender and Age Change</ChangeMirror.ShowGenderAgeChange>
+	<ChangeMirror.ShareHairStyles>Share Hair Styles Between Genders</ChangeMirror.ShareHairStyles>
 </LanguageData>

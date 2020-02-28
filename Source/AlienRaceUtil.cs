@@ -7,7 +7,7 @@ namespace ChangeMirror
 {
     class AlienRaceUtil
     {
-        private static Assembly alienRaceAssembly = null;
+        private static bool alienRaceEnabled = false;
         private static bool initialized = false;
         private static List<ThingDef> alienRaces = new List<ThingDef>(0);
 
@@ -151,7 +151,7 @@ namespace ChangeMirror
                                 assembly.GetType("AlienRace.ThingDef_AlienRace") != null)
                             {
                                 initialized = true;
-                                alienRaceAssembly = assembly;
+                                alienRaceEnabled = true;
                                 break;
                             }
                         }
@@ -165,7 +165,7 @@ namespace ChangeMirror
 #if ALIEN_DEBUG && DEBUG
                 Log.Warning("Aliens Exists: " + ((bool)(alienRaceAssembly != null)).ToString());
 #endif
-                return alienRaceAssembly != null;
+                return alienRaceEnabled;
             }
         }
 
@@ -173,26 +173,22 @@ namespace ChangeMirror
         {
             get
             {
+#if ALIEN_DEBUG && DEBUG
+                Log.Warning("Begin AlienRaces GET");
+#endif
                 if (Exists && alienRaces.Count == 0)
                 {
-                    foreach(ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
+                    foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
                     {
-                        if (def.defName.StartsWith("Alien") || 
-                            def.defName.StartsWith("alien"))
+                        if (def.GetType().GetField("alienRace") != null)
                         {
-#if ALIEN_DEBUG && DEBUG
-                            Log.Warning("Def: " + def.defName);
-#endif
                             for (Type type = def.GetType(); type != null; type = type.BaseType)
                             {
 #if ALIEN_DEBUG && DEBUG
-                                Log.Warning(" Type: " + type.Name);
+                                Log.Message("    Alien Race Found: " + def.label);
 #endif
                                 if (type.Name.EqualsIgnoreCase("ThingDef_AlienRace"))
                                 {
-#if ALIEN_DEBUG && DEBUG
-                                    Log.Warning("  Added");
-#endif
                                     alienRaces.Add(def);
                                     break;
                                 }
@@ -200,6 +196,9 @@ namespace ChangeMirror
                         }
                     }
                 }
+#if ALIEN_DEBUG && DEBUG
+                Log.Warning("End AlienRaces GET -- " + ((alienRaces == null) ? "<null>" : alienRaces.Count.ToString()));
+#endif
                 return alienRaces;
             }
         }

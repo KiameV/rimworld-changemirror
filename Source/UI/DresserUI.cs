@@ -96,7 +96,7 @@ namespace ChangeMirror.UI
                         float top = editorTop;
                         if (this.dresserDto.BodyTypeSelectionDto != null && this.dresserDto.BodyTypeSelectionDto.Count > 1)
                         {
-                            WidgetUtil.AddSelectorWidget(editorLeft, top, editorWidth, "ChangeMirror.BodyTypeDef".Translate() + ":", this.dresserDto.BodyTypeSelectionDto);
+                            WidgetUtil.AddSelectorWidget(editorLeft, top, editorWidth, "ChangeMirror.BodyType".Translate() + ":", this.dresserDto.BodyTypeSelectionDto);
                             top += WidgetUtil.SelectionRowHeight + 20f;
                             isShowing = true;
                         }

@@ -41,16 +41,20 @@ namespace ChangeMirror.UI.DTO.SelectionWidgetDTOs
         {
             this.OriginalHairDef = hairDef;
 
+            bool shareHair = Settings.ShareHairStyles;
+
             foreach (HairDef def in DefDatabase<HairDef>.AllDefs)
             {
-                if (def.hairGender == HairGender.Male ||
+                if (shareHair || 
+                    def.hairGender == HairGender.Male ||
                     def.hairGender == HairGender.MaleUsually ||
                     def.hairGender == HairGender.Any)
                 {
                     this.maleHairDefs.Add(def);
                 }
 
-                if (def.hairGender == HairGender.Female ||
+                if (shareHair || 
+                    def.hairGender == HairGender.Female ||
                     def.hairGender == HairGender.FemaleUsually ||
                     def.hairGender == HairGender.Any)
                 {

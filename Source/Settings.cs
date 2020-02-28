@@ -26,29 +26,33 @@ namespace ChangeMirror
     {
         private static bool showGenderAgeChange = true;
         private static bool showBodyChange = true;
-        private static bool keepForcedApparel = true;
+        private static bool shareHairStyles = true;
 
         public static bool ShowGenderAgeChange { get { return showGenderAgeChange; } }
         public static bool ShowBodyChange { get { return showBodyChange; } }
-        public static bool KeepForcedApparel { get { return keepForcedApparel; } }
-        public static int RepairAttachmentDistance { get { return 6; } }
+        public static bool ShareHairStyles { get; internal set; }
 
         public override void ExposeData()
         {
             base.ExposeData();
 
-            Scribe_Values.Look<bool>(ref showGenderAgeChange, "ChangeMirror.ShowGenderAgeChange", true, true);
-            Scribe_Values.Look<bool>(ref showBodyChange, "ChangeMirror.ShowBodyChange", true, true);
-            Scribe_Values.Look<bool>(ref keepForcedApparel, "ChangeMirror.KeepForcedApparel", false, true);
+            Scribe_Values.Look<bool>(ref showGenderAgeChange, "ChangeMirror.ShowGenderAgeChange", true);
+            Scribe_Values.Look<bool>(ref showBodyChange, "ChangeMirror.ShowBodyChange", true);
+            Scribe_Values.Look<bool>(ref shareHairStyles, "ChangeMirror.ShareHairStyles", false);
 
             VerifySupportedEditors(showBodyChange);
         }
 
         public static void DoSettingsWindowContents(Rect rect)
         {
-            Listing_Standard l = new Listing_Standard(GameFont.Small);
-            l.ColumnWidth = System.Math.Min(400, rect.width / 2);
+            Listing_Standard l = new Listing_Standard(GameFont.Small)
+            {
+                ColumnWidth = System.Math.Min(400, rect.width / 2)
+            };
+
             l.Begin(rect);
+            l.CheckboxLabeled("ChangeMirror.ShareHairStyles".Translate(), ref shareHairStyles);
+            l.Gap(48);
             l.CheckboxLabeled("ChangeMirror.ShowBodyChange".Translate(), ref showBodyChange);
             if (showBodyChange)
             {
