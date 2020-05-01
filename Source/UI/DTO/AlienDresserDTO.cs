@@ -18,7 +18,7 @@ namespace ChangeMirror.UI.DTO
 
         private ThingComp alienComp = null;
 
-        public AlienDresserDTO(Pawn pawn, CurrentEditorEnum currentEditorEnum, List<CurrentEditorEnum> editors) : base(pawn, currentEditorEnum, editors)
+        public AlienDresserDTO(Pawn pawn, CurrentEditorEnum currentEditorEnum, IEnumerable<CurrentEditorEnum> editors) : base(pawn, currentEditorEnum, editors)
         {
             base.EditorTypeSelectionDto.SetSelectedEditor(currentEditorEnum);
         }
@@ -80,6 +80,18 @@ namespace ChangeMirror.UI.DTO
                     base.HairColorSelectionDto = new HairColorSelectionDTO(this.Pawn.story.hairColor, IOUtil.LoadColorPresets(ColorPresetType.Hair));
                     base.HairColorSelectionDto.SelectionChangeListener += this.PrimaryHairColorChange;
 
+                    ColorPresetsDTO hairColorPresets = IOUtil.LoadColorPresets(ColorPresetType.Hair);
+                    if (GradientHairColorUtil.IsGradientHairAvailable)
+                    {
+                        if (!GradientHairColorUtil.GetGradientHair(this.Pawn, out bool enabled, out Color color))
+                        {
+                            enabled = false;
+                            color = Color.white;
+                        }
+                        base.GradientHairColorSelectionDto = new HairColorSelectionDTO(color, hairColorPresets, enabled);
+                        base.GradientHairColorSelectionDto.SelectionChangeListener += this.GradientHairColorChange;
+                    }
+
                     /*if (SecondaryHairColorFieldInfo != null)
                     {
                         base.AlienHairColorSecondary = new HairColorSelectionDTO((Color)SecondarySkinColorFieldInfo.GetValue(this.alienComp), IOUtil.LoadColorPresets(ColorPresetType.Hair));
@@ -114,7 +126,7 @@ namespace ChangeMirror.UI.DTO
                             Log.Warning("initialize - " + sb.ToString());
 #endif
 
-                            /*if (this.EditorTypeSelectionDto.Contains(CurrentEditorEnum.ChangeDresserHair))
+                            /*if (this.EditorTypeSelectionDto.Contains(CurrentEditorEnum.ChangeMirrorHair))
                             {
                                 if (hairSettings != null)
                                 {
@@ -134,14 +146,14 @@ namespace ChangeMirror.UI.DTO
 #if ALIEN_DEBUG
                         Log.Warning("initialize - remove hair editors");
 #endif
-                        base.EditorTypeSelectionDto.Remove(CurrentEditorEnum.ChangeMirrorHair);//, CurrentEditorEnum.ChangeDresserAlienHairColor);
+                        base.EditorTypeSelectionDto.Remove(CurrentEditorEnum.ChangeMirrorHair);//, CurrentEditorEnum.ChangeMirrorAlienHairColor);
 #if ALIEN_DEBUG
                         Log.Warning("initialize - hair editors removed");
 #endif
                     }
                 }
             }
-
+            
             if (this.EditorTypeSelectionDto.Contains(CurrentEditorEnum.ChangeMirrorBody))
             {
                 float maleGenderProbability = 0.5f;
@@ -180,14 +192,31 @@ namespace ChangeMirror.UI.DTO
                                 }
                             }
 
-                            fi = alienPartGenerator.GetType().GetField("alienbodytypes");
-                            if (fi != null)
+                            try
                             {
-                                List<BodyTypeDef> alienbodytypes = (List<BodyTypeDef>)fi.GetValue(alienPartGenerator);
-                                if (alienbodytypes != null)
+                                fi = alienPartGenerator.GetType().GetField("alienbodytypes");
+                                if (fi != null)
                                 {
-                                    this.BodyTypeSelectionDto = new BodyTypeSelectionDTO(this.Pawn.story.bodyType, this.Pawn.gender, alienbodytypes);
+                                    Log.Warning("Get story");
+                                    Log.Warning(this.Pawn.story.bodyType.ToString());
+                                    List<BodyTypeDef> alienbodytypes = (List<BodyTypeDef>)fi.GetValue(alienPartGenerator);
+                                    if (alienbodytypes != null && alienbodytypes.Count > 0)
+                                    {
+                                        Log.Warning("Found body types");
+                                        this.BodyTypeSelectionDto = new BodyTypeSelectionDTO(this.Pawn.story.bodyType, this.Pawn.gender, alienbodytypes);
+                                        Log.Warning("Body Types loaded");
+                                    }
+                                    else
+                                    {
+                                        Log.Warning("No alien body types found. Defaulting to human.");
+                                        this.BodyTypeSelectionDto = new BodyTypeSelectionDTO(this.Pawn.story.bodyType, this.Pawn.gender);
+                                    }
                                 }
+                            }
+                            catch
+                            {
+                                Log.Warning("Problem getting alien body types. Defaulting to human.");
+                                this.BodyTypeSelectionDto = new BodyTypeSelectionDTO(this.Pawn.story.bodyType, this.Pawn.gender);
                             }
                         }
                     }
@@ -218,6 +247,11 @@ namespace ChangeMirror.UI.DTO
             this.Pawn.story.hairColor = base.HairColorSelectionDto.SelectedColor;//base.AlienHairColorPrimary.SelectedColor;
         }
 
+        private void GradientHairColorChange(object sender)
+        {
+            GradientHairColorUtil.SetGradientHair(base.Pawn, base.GradientHairColorSelectionDto.IsGradientEnabled, base.GradientHairColorSelectionDto.SelectedColor);
+        }
+
         /*private void SecondaryHairColorChange(object sender)
         {
             SecondaryHairColorFieldInfo.SetValue(this.alienComp, base.AlienHairColorSecondary.SelectedColor);
@@ -225,7 +259,7 @@ namespace ChangeMirror.UI.DTO
 
         private void GenderChange(object sender)
         {
-            if (this.Pawn.story.bodyType == BodyTypeDefOf.Male &&
+            if (this.Pawn.story.bodyType == BodyTypeDefOf.Male && 
                 this.Pawn.gender == Gender.Male)
             {
                 this.Pawn.story.bodyType = BodyTypeDefOf.Female;

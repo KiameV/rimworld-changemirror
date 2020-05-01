@@ -1,33 +1,9 @@
-﻿/*
- * MIT License
- * 
- * Copyright (c) [2017] [Travis Offtermatt]
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-using ChangeMirror.UI.DTO;
+﻿using ChangeMirror.UI.DTO;
 using ChangeMirror.UI.DTO.SelectionWidgetDTOs;
 using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
-using System;
 using System.Text.RegularExpressions;
 using System.IO;
 
@@ -35,16 +11,30 @@ namespace ChangeMirror.UI.Util
 {
     delegate void SelectionChangeListener(object sender);
     delegate void UpdatePawnListener(object sender, object value);
+    delegate void ClearColorLayers();
 
     [StaticConstructorOnStartup]
     static class WidgetUtil
     {
         public static Texture2D nextTexture;
         public static Texture2D previousTexture;
+        public static Texture2D cantTexture;
         public static Texture2D colorPickerTexture;
         public static Texture2D copyIconTexture;
         public static Texture2D pasteIconTexture;
+        public static Texture2D dropTexture;
         public static Texture2D colorFinder;
+        public static Texture2D noneTexture;
+        public static Texture2D yesSellTexture;
+        public static Texture2D noSellTexture;
+        public static Texture2D yesDressFromTexture;
+        public static Texture2D noDressFromTexture;
+
+        public static Texture2D manageapparelTexture;
+        public static Texture2D assignweaponsTexture;
+        public static Texture2D customapparelTexture;
+        public static Texture2D emptyTexture;
+        public static Texture2D collectTexture;
 
         static WidgetUtil()
         {
@@ -72,6 +62,7 @@ namespace ChangeMirror.UI.Util
         private static Vector2 scrollPos = new Vector2(0, 0);
         private static Vector2 hairScrollPos = new Vector2(0, 0);
         private static readonly Texture2D ColorPreset = new Texture2D(20, 20);
+        private static readonly Texture2D LayerColor = new Texture2D(50, 30);
 
         public static float SelectionRowHeight { get { return NavButtonSize.y; } }
 
@@ -115,16 +106,11 @@ namespace ChangeMirror.UI.Util
 
         public static void AddColorSelectorWidget(float left, float top, float width, SelectionColorWidgetDTO selectionDto, ColorPresetsDTO presetsDto)
         {
-            List<SelectionColorWidgetDTO> l = new List<SelectionColorWidgetDTO>(1);
-            l.Add(selectionDto);
-            /*if (Settings.UseColorPickerV2)
+            List<SelectionColorWidgetDTO> l = new List<SelectionColorWidgetDTO>(1)
             {
-                AddColorSelectorV2Widget(left, top, width, l, presetsDto);
-            }
-            else
-            {*/
+                selectionDto
+            };
             AddColorSelectorWidget(left, top, width, l, presetsDto);
-            //}
         }
 
         public static void AddColorSelectorWidget(float left, float top, float width, List<SelectionColorWidgetDTO> selectionDtos, ColorPresetsDTO presetsDto)
@@ -167,47 +153,51 @@ namespace ChangeMirror.UI.Util
             bool skipRGB = false;
             if (presetsDto != null)
             {
-                GUI.BeginGroup(new Rect(5, colorPickerRect.yMax, (ColorPreset.width + 4) * presetsDto.Count, ColorPreset.height + 5));
-                float l = 0;
-                for (int i = 0; i < presetsDto.Count; ++i)
+                for (int row = 0; row < ColorPresetsDTO.ROWS; ++row)
                 {
-                    GUI.color = presetsDto[i];
-
-                    l += ColorPreset.width + 4;
-                    Rect presetRect = new Rect(l, 0f, ColorPreset.width, ColorPreset.height);
-                    GUI.Label(presetRect, new GUIContent(ColorPreset,
-                        "ChangeMirror.ColorPresetHelp".Translate()));
-                    if (Widgets.ButtonInvisible(presetRect, false))
+                    float l = 0;
+                    GUI.BeginGroup(new Rect(0, colorPickerRect.yMax + row * ColorPreset.height, (ColorPreset.width + 4) * ColorPresetsDTO.COLUMNS, ColorPreset.height + 5));
+                    for (int col = 0; col < ColorPresetsDTO.COLUMNS; ++col)
                     {
-                        if (Event.current.shift)
+                        int i = row * ColorPresetsDTO.COLUMNS + col;
+                        GUI.color = presetsDto[i];
+
+                        l += ColorPreset.width + 4;
+                        Rect presetRect = new Rect(l, 0f, ColorPreset.width, ColorPreset.height);
+                        GUI.Label(presetRect, new GUIContent(ColorPreset,
+                            "ChangeMirror.ColorPresetHelp".Translate()));
+                        if (Widgets.ButtonInvisible(presetRect, false))
                         {
-                            if (presetsDto.IsSelected(i))
+                            if (Event.current.shift)
                             {
-                                presetsDto.Deselect();
+                                if (presetsDto.IsSelected(i))
+                                {
+                                    presetsDto.Deselect();
+                                }
+                                else
+                                {
+                                    if (selectionDtos.Count > 0 &&
+                                        !presetsDto.HasSelected())
+                                    {
+                                        presetsDto.SetColor(i, selectionDtos[0].SelectedColor);
+                                    }
+                                    presetsDto.SetSelected(i);
+                                }
                             }
                             else
                             {
-                                if (selectionDtos.Count > 0 &&
-                                    !presetsDto.HasSelected())
-                                {
-                                    presetsDto.SetColor(i, selectionDtos[0].SelectedColor);
-                                }
-                                presetsDto.SetSelected(i);
+                                SetColorToSelected(selectionDtos, null, presetsDto[i]);
                             }
+                            skipRGB = true;
                         }
-                        else
+                        GUI.color = Color.white;
+                        if (presetsDto.IsSelected(i))
                         {
-                            SetColorToSelected(selectionDtos, null, presetsDto[i]);
+                            Widgets.DrawBox(presetRect, 1);
                         }
-                        skipRGB = true;
                     }
-                    GUI.color = Color.white;
-                    if (presetsDto.IsSelected(i))
-                    {
-                        Widgets.DrawBox(presetRect, 1);
-                    }
+                    GUI.EndGroup();
                 }
-                GUI.EndGroup();
             }
             GUI.EndGroup();
 
@@ -479,7 +469,7 @@ namespace ChangeMirror.UI.Util
             Text.Anchor = TextAnchor.UpperLeft;
         }
 
-        public static void AddAppararelColorSelectionWidget(float left, float top, float width, ApparelSelectionsContainer apparelSelectionsContainer)
+        public static void AddAppararelColorSelectionWidget(float left, float top, float width, ApparelColorSelectionsContainer apparelSelectionsContainer, ClearColorLayers clearColorLayers)
         {
             Text.Anchor = TextAnchor.MiddleCenter;
             if (apparelSelectionsContainer.Count == 0)
@@ -497,13 +487,18 @@ namespace ChangeMirror.UI.Util
 
                 GUI.color = Color.white;
                 Text.Font = GameFont.Small;
-                if (Widgets.ButtonText(new Rect(20, 0, 100, SelectionRowHeight), "ChangeMirror.SelectAll".Translate()))
+                if (Widgets.ButtonText(new Rect(10, 0, 100, SelectionRowHeight), "ChangeMirror.SelectAll".Translate()))
                 {
                     apparelSelectionsContainer.SelectAll();
                 }
-                if (Widgets.ButtonText(new Rect(apparelScrollRect.width - 120, 0, 100, SelectionRowHeight), "ChangeMirror.DeselectAll".Translate()))
+                if (Widgets.ButtonText(new Rect(apparelScrollRect.width - 140, 0, 100, SelectionRowHeight), "ChangeMirror.DeselectAll".Translate()))
                 {
                     apparelSelectionsContainer.DeselectAll();
+                }
+                if (clearColorLayers != null &&
+                    Widgets.ButtonText(new Rect(apparelScrollRect.width - SelectionRowHeight, 0, SelectionRowHeight, SelectionRowHeight), "X"))
+                {
+                    clearColorLayers();
                 }
                 Text.Font = GameFont.Medium;
 
@@ -554,6 +549,99 @@ namespace ChangeMirror.UI.Util
                 else
                 {*/
                 AddColorSelectorWidget(left, top + apparelListRect.height + 10f, width, apparelSelectionsContainer.SelectedApparel, apparelSelectionsContainer.ColorPresetsDTO);
+                //}
+            }
+            Text.Anchor = TextAnchor.UpperLeft;
+        }
+
+        public static void AddAppararelColorByLayerSelectionWidget(
+            float left, float top, float width, Pawn pawn, ApparelLayerSelectionsContainer layerSelectionsContainer, ClearColorLayers clearColorLayers)
+        {
+            Text.Anchor = TextAnchor.MiddleCenter;
+            if (layerSelectionsContainer.Count == 0)
+            {
+                GUI.Label(new Rect(left, top, width, SelectionRowHeight), "ChangeMirror.NoClothingIsWorn".Translate(), MiddleCenter);
+            }
+            else
+            {
+                const float cellHeight = 38f;
+                float colorSampleHeight = (cellHeight - LayerColor.height) * 0.5f;
+                Rect apparelListRect = new Rect(left, top, width, 250f);
+                Rect apparelScrollRect = new Rect(0f, 0f, width - 16f, layerSelectionsContainer.Count * cellHeight + SelectionRowHeight);
+
+                GUI.BeginGroup(apparelListRect);
+                scrollPos = GUI.BeginScrollView(new Rect(GenUI.AtZero(apparelListRect)), scrollPos, apparelScrollRect);
+
+                GUI.color = Color.white;
+                Text.Font = GameFont.Small;
+                if (Widgets.ButtonText(new Rect(10, 0, 100, SelectionRowHeight), "ChangeMirror.SelectAll".Translate()))
+                {
+                    layerSelectionsContainer.SelectAll();
+                }
+                if (Widgets.ButtonText(new Rect(apparelScrollRect.width - 140, 0, 100, SelectionRowHeight), "ChangeMirror.DeselectAll".Translate()))
+                {
+                    layerSelectionsContainer.DeselectAll();
+                }
+                if (clearColorLayers != null &&
+                    Widgets.ButtonText(new Rect(apparelScrollRect.width - SelectionRowHeight, 0, SelectionRowHeight, SelectionRowHeight), "X"))
+                {
+                    clearColorLayers();
+                }
+                
+                Text.Font = GameFont.Medium;
+
+                for (int i = 0; i < layerSelectionsContainer.Count; ++i)
+                {
+                    ApparelLayerColorSelectionDTO dto = layerSelectionsContainer[i];
+                    ApparelLayerDef layer = dto.ApparelLayerDef;
+                    GUI.BeginGroup(new Rect(0, SelectionRowHeight + 3f + i * cellHeight, apparelListRect.width, cellHeight));
+                    
+                    GUI.color = GetLayerColor(dto.ApparelLayerDef, pawn);
+                    Rect rect = new Rect(0f, colorSampleHeight, LayerColor.width, LayerColor.height);
+                    GUI.Label(rect, new GUIContent(LayerColor));
+                    GUI.color = Color.white;
+                    //Widgets.DrawBox(rect, 1);
+                    
+                    Text.Font = GameFont.Small;
+                    Text.Anchor = TextAnchor.MiddleCenter;
+                    Rect textRect = new Rect(rect.width + 5f, 0f, apparelScrollRect.width - 90f, cellHeight);
+                    if (layerSelectionsContainer.IsSelected(dto))
+                    {
+                        GUI.color = Color.white;
+                    }
+                    else
+                    {
+                        GUI.color = Color.gray;
+                    }
+                    Widgets.Label(textRect, new GUIContent(dto.ApparelLayerDef.ToString().Translate(), "ChangeMirror.SelectMultipleApparel".Translate()));
+                    if (Widgets.ButtonInvisible(textRect, false))
+                    {
+                        layerSelectionsContainer.Select(dto, Event.current.shift);
+                    }
+                    GUI.color = Color.white;
+                    if (Widgets.ButtonImage(new Rect(apparelScrollRect.width - 40f, 0, 32f, 16f), copyIconTexture))
+                    {
+                        layerSelectionsContainer.CopyColor = GetLayerColor(dto.ApparelLayerDef, pawn);
+                    }
+                    if (layerSelectionsContainer.CopyColorSelected)
+                    {
+                        if (Widgets.ButtonImage(new Rect(apparelScrollRect.width - 40f, 16f, 32f, 16f), pasteIconTexture))
+                        {
+                            dto.SelectedColor = layerSelectionsContainer.CopyColor;
+                        }
+                    }
+                    GUI.EndGroup();
+                }
+                GUI.EndScrollView();
+                GUI.EndGroup();
+
+                /*if (Settings.UseColorPickerV2)
+                {
+                    AddColorSelectorV2Widget(left, top + apparelListRect.height + 10f, width, apparelSelectionsContainer.SelectedApparel, apparelSelectionsContainer.ColorPresetsDTO);
+                }
+                else
+                {*/
+                AddColorSelectorWidget(left, top + apparelListRect.height + 10f, width, layerSelectionsContainer.SelectedApparel, layerSelectionsContainer.ColorPresetsDTO);
                 //}
             }
             Text.Anchor = TextAnchor.UpperLeft;
@@ -610,6 +698,17 @@ namespace ChangeMirror.UI.Util
                 return 0;
             }
 
+        }
+
+        private static Color GetLayerColor(ApparelLayerDef layer, Pawn pawn)
+        {
+            int layerInt = ChangeMirror.Util.ToInt(layer);
+            foreach (Apparel a in pawn.apparel.WornApparel)
+            {
+                if (a.def.apparel.LastLayer == layer)
+                    return a.DrawColor;
+            }
+            return Color.white;
         }
     }
 }

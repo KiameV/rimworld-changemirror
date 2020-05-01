@@ -39,8 +39,6 @@ namespace ChangeMirror
             Scribe_Values.Look<bool>(ref showGenderAgeChange, "ChangeMirror.ShowGenderAgeChange", true);
             Scribe_Values.Look<bool>(ref showBodyChange, "ChangeMirror.ShowBodyChange", true);
             Scribe_Values.Look<bool>(ref shareHairStyles, "ChangeMirror.ShareHairStyles", false);
-
-            VerifySupportedEditors(showBodyChange);
         }
 
         public static void DoSettingsWindowContents(Rect rect)
@@ -65,22 +63,6 @@ namespace ChangeMirror
                 l.Gap(48);
             }
             l.End();
-
-            VerifySupportedEditors(showBodyChange);
-        }
-
-        private static void VerifySupportedEditors(bool showBodyChange)
-        {
-            if (showBodyChange && Building_ChangeMirror.SupportedEditors.Count == 2)
-            {
-                Building_ChangeMirror.SupportedEditors.Add(UI.Enums.CurrentEditorEnum.ChangeMirrorBody);
-                Building_ChangeMirror.SupportedEditors.Add(UI.Enums.CurrentEditorEnum.ChangeMirrorBody);
-            }
-            else if (!showBodyChange && Building_ChangeMirror.SupportedEditors.Count == 3)
-            {
-                Building_ChangeMirror.SupportedEditors.Remove(UI.Enums.CurrentEditorEnum.ChangeMirrorBody);
-                Building_ChangeMirror.SupportedEditors.Remove(UI.Enums.CurrentEditorEnum.ChangeMirrorBody);
-            }
         }
     }
 }

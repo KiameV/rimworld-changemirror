@@ -13,13 +13,22 @@ namespace ChangeMirror
         private JobDef changeBodyJobDef = DefDatabase<JobDef>.GetNamed("ChangeBody", true);
         public readonly JobDef changeBodyAlienColor = DefDatabase<JobDef>.GetNamed("ChangeBodyAlienColor", true);
 
-        public static readonly List<CurrentEditorEnum> SupportedEditors = new List<CurrentEditorEnum>(3);
-
-        static Building_ChangeMirror()
+        public static IEnumerable<CurrentEditorEnum> GetSupportedEditors(bool isAlien)
         {
-            SupportedEditors.Add(CurrentEditorEnum.ChangeMirrorApparelColor);
-            SupportedEditors.Add(CurrentEditorEnum.ChangeMirrorHair);
-            SupportedEditors.Add(CurrentEditorEnum.ChangeMirrorBody);
+            yield return CurrentEditorEnum.ChangeMirrorApparelColor;
+            yield return CurrentEditorEnum.ChangeMirrorHair;
+
+            if (Settings.ShowBodyChange)
+            {
+                if (isAlien)
+                {
+                    yield return CurrentEditorEnum.ChangeMirrorAlienSkinColor;
+                }
+                else
+                {
+                    yield return CurrentEditorEnum.ChangeMirrorBody;
+                }
+            }
         }
 
         [DebuggerHidden]

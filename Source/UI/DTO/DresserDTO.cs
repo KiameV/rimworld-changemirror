@@ -26,6 +26,7 @@ using ChangeMirror.UI.Enums;
 using Verse;
 using ChangeMirror.UI.Util;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ChangeMirror.UI.DTO
 {
@@ -45,7 +46,9 @@ namespace ChangeMirror.UI.DTO
         public GenderSelectionDTO GenderSelectionDto { get; protected set; }
         public HairStyleSelectionDTO HairStyleSelectionDto { get; protected set; }
         public HairColorSelectionDTO HairColorSelectionDto { get; protected set; }
-        public ApparelSelectionsContainer ApparelSelectionsContainer { get; protected set; }
+        public HairColorSelectionDTO GradientHairColorSelectionDto { get; protected set; }
+        public ApparelColorSelectionsContainer ApparelSelectionsContainer { get; protected set; }
+        public ApparelLayerSelectionsContainer ApparelLayerSelectionsContainer { get; protected set; }
         public SliderWidgetDTO SkinColorSliderDto { get; protected set; }
         public HeadTypeSelectionDTO HeadTypeSelectionDto { get; protected set; }
 
@@ -54,12 +57,12 @@ namespace ChangeMirror.UI.DTO
         //public HairColorSelectionDTO AlienHairColorPrimary { get; protected set; }
         //public HairColorSelectionDTO AlienHairColorSecondary { get; protected set; }
 
-        public DresserDTO(Pawn pawn, CurrentEditorEnum currentEditorEnum, List<CurrentEditorEnum> editors)
+        public DresserDTO(Pawn pawn, CurrentEditorEnum currentEditorEnum, IEnumerable<CurrentEditorEnum> editors)
         {
             this.Pawn = pawn;
 
             this.CurrentEditorEnum = currentEditorEnum;
-            this.EditorTypeSelectionDto = new EditorTypeSelectionDTO(this.CurrentEditorEnum, editors);
+            this.EditorTypeSelectionDto = new EditorTypeSelectionDTO(this.CurrentEditorEnum, new List<CurrentEditorEnum>(editors));
             this.EditorTypeSelectionDto.SelectionChangeListener += delegate (object sender)
             {
                 this.CurrentEditorEnum = (CurrentEditorEnum)this.EditorTypeSelectionDto.SelectedItem;
@@ -79,6 +82,7 @@ namespace ChangeMirror.UI.DTO
             this.GenderSelectionDto = null;
             this.HairStyleSelectionDto = null;
             this.HairColorSelectionDto = null;
+            this.GradientHairColorSelectionDto = null;
             this.SkinColorSliderDto = null;
             this.HeadTypeSelectionDto = null;
 
@@ -89,7 +93,12 @@ namespace ChangeMirror.UI.DTO
 
             if (this.EditorTypeSelectionDto.Contains(CurrentEditorEnum.ChangeMirrorApparelColor))
             {
-                this.ApparelSelectionsContainer = new ApparelSelectionsContainer(this.Pawn.apparel.WornApparel, IOUtil.LoadColorPresets(ColorPresetType.Apparel));
+                this.ApparelSelectionsContainer = new ApparelColorSelectionsContainer(this.Pawn.apparel.WornApparel, IOUtil.LoadColorPresets(ColorPresetType.Apparel));
+            }
+
+            if (this.EditorTypeSelectionDto.Contains(CurrentEditorEnum.ChangeMirrorApparelLayerColor))
+            {
+                this.ApparelLayerSelectionsContainer = new ApparelLayerSelectionsContainer(this.Pawn, IOUtil.LoadColorPresets(ColorPresetType.Apparel));
             }
 
             this.Initialize();
@@ -123,17 +132,40 @@ namespace ChangeMirror.UI.DTO
             if (this.EditorTypeSelectionDto.Contains(CurrentEditorEnum.ChangeMirrorHair))
             {
                 this.HairStyleSelectionDto = new HairStyleSelectionDTO(this.Pawn.story.hairDef, this.Pawn.gender);
-                this.HairColorSelectionDto = new HairColorSelectionDTO(this.Pawn.story.hairColor, IOUtil.LoadColorPresets(ColorPresetType.Hair));
+
+                ColorPresetsDTO hairColorPresets = IOUtil.LoadColorPresets(ColorPresetType.Hair);
+                this.HairColorSelectionDto = new HairColorSelectionDTO(this.Pawn.story.hairColor, hairColorPresets);
+                if (GradientHairColorUtil.IsGradientHairAvailable)
+                {
+                    if (!GradientHairColorUtil.GetGradientHair(this.Pawn, out bool enabled, out Color color))
+                    {
+                        enabled = false;
+                        color = Color.white;
+                    }
+                    this.GradientHairColorSelectionDto = new HairColorSelectionDTO(color, hairColorPresets, enabled);
+                }
             }
         }
 
         public void SetUpdatePawnListeners(UpdatePawnListener updatePawn)
         {
+            if (this.ApparelLayerSelectionsContainer != null)
+            {
+                foreach (ApparelLayerColorSelectionDTO dto in this.ApparelLayerSelectionsContainer.ApparelLayerSelections)
+                {
+                    dto.UpdatePawnListener += updatePawn;
+                }
+            }
+
             if (this.ApparelSelectionsContainer != null)
             {
                 foreach (ApparelColorSelectionDTO dto in this.ApparelSelectionsContainer.ApparelColorSelections)
                 {
                     dto.UpdatePawnListener += updatePawn;
+                    if (this.ApparelLayerSelectionsContainer != null)
+                    {
+                        dto.UpdatePawnListener += this.ApparelLayerSelectionsContainer.UpdatePawn;
+                    }
                 }
             }
 
@@ -145,6 +177,8 @@ namespace ChangeMirror.UI.DTO
                 this.HairStyleSelectionDto.UpdatePawnListener += updatePawn;
             if (this.HairColorSelectionDto != null)
                 this.HairColorSelectionDto.UpdatePawnListener += updatePawn;
+            if (this.GradientHairColorSelectionDto != null)
+                this.GradientHairColorSelectionDto.UpdatePawnListener += updatePawn;
             if (this.SkinColorSliderDto != null)
                 this.SkinColorSliderDto.UpdatePawnListener += updatePawn;
             if (this.HeadTypeSelectionDto != null)
@@ -174,8 +208,12 @@ namespace ChangeMirror.UI.DTO
                 this.HairStyleSelectionDto.ResetToDefault();
             if (this.HairColorSelectionDto != null)
                 this.HairColorSelectionDto.ResetToDefault();
+            if (this.GradientHairColorSelectionDto != null)
+                this.GradientHairColorSelectionDto.ResetToDefault();
             if (this.ApparelSelectionsContainer != null)
                 this.ApparelSelectionsContainer.ResetToDefault();
+            if (this.ApparelLayerSelectionsContainer != null)
+                this.ApparelLayerSelectionsContainer.ResetToDefault();
             if (this.SkinColorSliderDto != null)
                 this.SkinColorSliderDto.ResetToDefault();
             if (this.HeadTypeSelectionDto != null)

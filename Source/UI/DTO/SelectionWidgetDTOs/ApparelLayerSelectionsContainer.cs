@@ -22,25 +22,53 @@
  * SOFTWARE.
  */
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Verse;
 
 namespace ChangeMirror.UI.DTO.SelectionWidgetDTOs
 {
-    class ApparelSelectionsContainer
+    class ApparelLayerColorSelectionDTO : SelectionColorWidgetDTO
     {
-        public List<ApparelColorSelectionDTO> ApparelColorSelections { get; private set; }
+        public readonly ApparelLayerDef ApparelLayerDef;
+
+        public ApparelLayerColorSelectionDTO(ApparelLayerDef layer) : base(Color.white)
+        {
+            this.ApparelLayerDef = layer;
+        }
+
+        public override bool Equals(object o)
+        {
+            if (o != null &&
+                o is ApparelLayerColorSelectionDTO)
+            {
+                return this.ApparelLayerDef == ((ApparelLayerColorSelectionDTO)o).ApparelLayerDef;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return ("ApparelLayerColorSelectionDTO" + this.ApparelLayerDef).GetHashCode();
+        }
+    }
+
+    class ApparelLayerSelectionsContainer
+    {
+        public List<ApparelLayerColorSelectionDTO> ApparelLayerSelections { get; private set; }
         public List<SelectionColorWidgetDTO> SelectedApparel { get; private set; }
         public bool CopyColorSelected { get; private set; }
         public ColorPresetsDTO ColorPresetsDTO { get; private set; }
         private Color copyColor = Color.white;
 
-        public ApparelSelectionsContainer(List<Apparel> apparel, ColorPresetsDTO presetsDto)
+        public ApparelLayerSelectionsContainer(Pawn pawn, ColorPresetsDTO presetsDto)
         {
-            this.ApparelColorSelections = new List<ApparelColorSelectionDTO>(apparel.Count);
-            foreach (Apparel a in apparel)
+            this.ApparelLayerSelections = new List<ApparelLayerColorSelectionDTO>(ChangeMirror.Util.LayerCount);
+            IEnumerable<ApparelLayerDef> layers = ChangeMirror.Util.Layers;
+            foreach (ApparelLayerDef layer in layers)
             {
-                this.ApparelColorSelections.Add(new ApparelColorSelectionDTO(a));
+                this.ApparelLayerSelections.Add(new ApparelLayerColorSelectionDTO(layer));
             }
             this.SelectedApparel = new List<SelectionColorWidgetDTO>();
             this.ColorPresetsDTO = presetsDto;
@@ -57,16 +85,16 @@ namespace ChangeMirror.UI.DTO.SelectionWidgetDTOs
             }
         }
 
-        public int Count { get { return this.ApparelColorSelections.Count; } }
+        public int Count { get { return this.ApparelLayerSelections.Count; } }
 
-        public ApparelColorSelectionDTO this[int i]
+        public ApparelLayerColorSelectionDTO this[int i]
         {
-            get { return this.ApparelColorSelections[i]; }
+            get { return this.ApparelLayerSelections[i]; }
         }
 
         public void ResetToDefault()
         {
-            foreach (ApparelColorSelectionDTO dto in this.ApparelColorSelections)
+            foreach (ApparelLayerColorSelectionDTO dto in this.ApparelLayerSelections)
             {
                 dto.ResetToDefault();
             }
@@ -83,13 +111,13 @@ namespace ChangeMirror.UI.DTO.SelectionWidgetDTOs
         {
             this.DeselectAll();
             this.ColorPresetsDTO.Deselect();
-            foreach (ApparelColorSelectionDTO dto in this.ApparelColorSelections)
+            foreach (ApparelLayerColorSelectionDTO dto in this.ApparelLayerSelections)
             {
                 this.SelectedApparel.Add(dto);
             }
         }
 
-        public void Select(ApparelColorSelectionDTO dto, bool isShiftPressed)
+        public void Select(ApparelLayerColorSelectionDTO dto, bool isShiftPressed)
         {
             this.ColorPresetsDTO.Deselect();
             if (!isShiftPressed)
@@ -107,9 +135,39 @@ namespace ChangeMirror.UI.DTO.SelectionWidgetDTOs
             }
         }
 
-        public bool IsSelected(ApparelColorSelectionDTO dto)
+        public bool IsSelected(ApparelLayerColorSelectionDTO dto)
         {
             return this.SelectedApparel.Contains(dto);
+        }
+
+        internal void UpdatePawn(object sender, object value)
+        {
+            if (sender is ApparelColorSelectionDTO)
+            {
+                ApparelColorSelectionDTO apparelColorSelectDto = (ApparelColorSelectionDTO)sender;
+                Apparel a = apparelColorSelectDto.Apparel;
+                ApparelLayerDef layer = this.GetOuterMostLayer(a);
+                foreach (ApparelLayerColorSelectionDTO dto in ApparelLayerSelections)
+                {
+                    if (dto.ApparelLayerDef == layer)
+                        dto.SelectedColor = a.DrawColor;
+                    //if (a.def.apparel.layers.Contains(dto.ApparelLayerDef))
+                }
+            }
+        }
+
+        private ApparelLayerDef GetOuterMostLayer(Apparel a)
+        {
+            int layer = ChangeMirror.Util.ToInt(ApparelLayerDefOf.OnSkin);
+            foreach (ApparelLayerDef l in a.def.apparel.layers)
+            {
+                int i = ChangeMirror.Util.ToInt(l);
+                if (i >= layer)
+                {
+                    layer = i;
+                }
+            }
+            return ChangeMirror.Util.ToLayer(layer);
         }
     }
 }

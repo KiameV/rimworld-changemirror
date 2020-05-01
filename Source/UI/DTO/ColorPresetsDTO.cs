@@ -27,6 +27,8 @@ namespace ChangeMirror.UI.DTO
 {
     public class ColorPresetsDTO
     {
+        public const int ROWS = 3;
+        public const int COLUMNS = 7;
         public int Count { get { return this.ColorPresets.Length; } }
 
         private Color[] ColorPresets { get; set; }
@@ -35,7 +37,11 @@ namespace ChangeMirror.UI.DTO
 
         public ColorPresetsDTO()
         {
-            this.ColorPresets = new Color[6];
+            this.ColorPresets = new Color[ROWS * COLUMNS];
+            for (int i = 0; i < ROWS * COLUMNS; ++i)
+            {
+                this.ColorPresets[i] = Color.white;
+            }
             this.Deselect();
             this.IsModified = false;
         }
@@ -90,6 +96,11 @@ namespace ChangeMirror.UI.DTO
             {
                 this.SetColor(i, value);
             }
+        }
+
+        public void ClearModified()
+        {
+            this.IsModified = false;
         }
     }
 }
