@@ -17,17 +17,11 @@ namespace ChangeMirror
         {
             yield return CurrentEditorEnum.ChangeMirrorApparelColor;
             yield return CurrentEditorEnum.ChangeMirrorHair;
+            yield return CurrentEditorEnum.ChangeMirrorBody;
 
-            if (Settings.ShowBodyChange)
+            if (Settings.ShowBodyChange && isAlien)
             {
-                if (isAlien)
-                {
-                    yield return CurrentEditorEnum.ChangeMirrorAlienSkinColor;
-                }
-                else
-                {
-                    yield return CurrentEditorEnum.ChangeMirrorBody;
-                }
+                yield return CurrentEditorEnum.ChangeMirrorAlienSkinColor;
             }
         }
 
