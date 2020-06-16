@@ -52,9 +52,15 @@ namespace ChangeMirror.UI.DTO.SelectionWidgetDTOs
 
         public HeadTypeSelectionDTO(string headType, Gender gender, List<string> crownTypes) : this(headType, gender)
         {
-            this.AddHeadTypesToList("Things/Pawn/Humanlike/Heads/Male", crownTypes);
-            this.AddHeadTypesToList("Things/Pawn/Humanlike/Heads/Female", crownTypes);
-            
+            this.OriginalHeadType = headType;
+
+            this.maleHeadTypes.AddRange(crownTypes);
+            this.femaleHeadTypes.AddRange(crownTypes);
+
+            //this.AddHeadTypesToList("Things/Pawn/Humanlike/Heads/Male", crownTypes);
+            //this.AddHeadTypesToList("Things/Pawn/Humanlike/Heads/Female", crownTypes);
+
+            this.Gender = gender;
             this.FindIndex(headType);
         }
 
@@ -119,7 +125,11 @@ namespace ChangeMirror.UI.DTO.SelectionWidgetDTOs
         {
             foreach (string current in GraphicDatabaseUtility.GraphicNamesInFolder(source))
             {
-                string item = source + "/" + current;
+                string item = current;
+                if (item.IndexOf("/") == -1)
+                {
+                    item = source + item;
+                }
                 list.Add(item);
             }
         }
