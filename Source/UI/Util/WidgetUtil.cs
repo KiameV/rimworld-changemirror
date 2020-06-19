@@ -18,23 +18,10 @@ namespace ChangeMirror.UI.Util
     {
         public static Texture2D nextTexture;
         public static Texture2D previousTexture;
-        public static Texture2D cantTexture;
         public static Texture2D colorPickerTexture;
         public static Texture2D copyIconTexture;
         public static Texture2D pasteIconTexture;
-        public static Texture2D dropTexture;
         public static Texture2D colorFinder;
-        public static Texture2D noneTexture;
-        public static Texture2D yesSellTexture;
-        public static Texture2D noSellTexture;
-        public static Texture2D yesDressFromTexture;
-        public static Texture2D noDressFromTexture;
-
-        public static Texture2D manageapparelTexture;
-        public static Texture2D assignweaponsTexture;
-        public static Texture2D customapparelTexture;
-        public static Texture2D emptyTexture;
-        public static Texture2D collectTexture;
 
         static WidgetUtil()
         {

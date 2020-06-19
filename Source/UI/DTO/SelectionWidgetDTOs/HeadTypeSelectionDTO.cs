@@ -43,8 +43,8 @@ namespace ChangeMirror.UI.DTO.SelectionWidgetDTOs
         {
             this.OriginalHeadType = headType;
 
-            this.AddHeadTypesToList("Things/Pawn/Humanlike/Heads/Male", this.maleHeadTypes);
-            this.AddHeadTypesToList("Things/Pawn/Humanlike/Heads/Female", this.femaleHeadTypes);
+            this.AddHeadTypesToList("Things/Pawn/Humanlike/Heads/Male/", this.maleHeadTypes);
+            this.AddHeadTypesToList("Things/Pawn/Humanlike/Heads/Female/", this.femaleHeadTypes);
 
             this.Gender = gender;
             this.FindIndex(headType);
@@ -57,8 +57,8 @@ namespace ChangeMirror.UI.DTO.SelectionWidgetDTOs
             this.maleHeadTypes.AddRange(crownTypes);
             this.femaleHeadTypes.AddRange(crownTypes);
 
-            //this.AddHeadTypesToList("Things/Pawn/Humanlike/Heads/Male", crownTypes);
-            //this.AddHeadTypesToList("Things/Pawn/Humanlike/Heads/Female", crownTypes);
+            //this.AddHeadTypesToList("Things/Pawn/Humanlike/Heads/Male/", crownTypes);
+            //this.AddHeadTypesToList("Things/Pawn/Humanlike/Heads/Female/", crownTypes);
 
             this.Gender = gender;
             this.FindIndex(headType);
