@@ -83,7 +83,7 @@ namespace ChangeMirror.UI.DTO
                         if (hairTags != null)
                         {
                             IEnumerable<HairDef> hairDefs = from hair in DefDatabase<HairDef>.AllDefs
-                                                            where hair.hairTags.SharesElementWith(hairTags)
+                                                            where hair.styleTags.SharesElementWith(hairTags)
                                                             select hair;
 #if ALIEN_DEBUG
                             System.Text.StringBuilder sb = new System.Text.StringBuilder("Hair Defs: ");
