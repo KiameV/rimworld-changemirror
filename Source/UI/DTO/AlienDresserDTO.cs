@@ -37,7 +37,7 @@ namespace ChangeMirror.UI.DTO
 #endif
                 if (raceSettings != null)
                 {
-                    HairSettings hairSettings = raceSettings.hairSettings;
+                    var styleSettings = raceSettings.styleSettings;
                     var c = ac.GetChannel("skin");
                     if (c != null)
                     {
@@ -48,7 +48,7 @@ namespace ChangeMirror.UI.DTO
                         base.AlienSkinColorPrimary.SelectionChangeListener += this.SecondarySkinColorChange;
                     }
 
-                    if (hairSettings?.hasHair == true)
+                    if (styleSettings?.ContainsKey(typeof(HairDef)) == true)
                     {
                         base.HairColorSelectionDto = new HairColorSelectionDTO(this.Pawn.story.hairColor, IOUtil.LoadColorPresets(ColorPresetType.Hair));
                         base.HairColorSelectionDto.SelectionChangeListener += this.PrimaryHairColorChange;
@@ -72,14 +72,14 @@ namespace ChangeMirror.UI.DTO
             {
                 if (raceSettings != null)
                 {
-                    HairSettings hairSettings = raceSettings.hairSettings;
-                    base.HasHair = hairSettings?.hasHair == true;
+                    var styleSettings = raceSettings.styleSettings;
+                    base.HasHair = styleSettings?.ContainsKey(typeof(HairDef)) == true;
 #if ALIEN_DEBUG
                     Log.Warning("initialize - got hair settings: HasHair = " + base.HasHair);
 #endif
                     if (base.HasHair)
                     {
-                        List<string> hairTags = hairSettings.hairTags;
+                        List<string> hairTags = styleSettings[typeof(HairDef)].styleTags;
                         if (hairTags != null)
                         {
                             IEnumerable<HairDef> hairDefs = from hair in DefDatabase<HairDef>.AllDefs
