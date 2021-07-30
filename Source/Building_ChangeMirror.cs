@@ -1,4 +1,5 @@
 ﻿using ChangeMirror.UI.Enums;
+using RimWorld;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Verse;
@@ -6,11 +7,18 @@ using Verse.AI;
 
 namespace ChangeMirror
 {
+    [DefOf]
+    public static class JobDefOfCM
+    {
+        public static JobDef ChangeApparelColor;
+        public static JobDef ChangeHairColor;
+        public static JobDef ChangeHairStyle;
+        public static JobDef ChangeBody;
+        public static JobDef ChangeFavoriteColor;
+    }
+
     class Building_ChangeMirror : Building
     {
-        private JobDef changeApparelColorJobDef = DefDatabase<JobDef>.GetNamed("ChangeApparelColor", true);
-        private JobDef changeHairStyleJobDef = DefDatabase<JobDef>.GetNamed("ChangeHairStyle", true);
-        private JobDef changeBodyJobDef = DefDatabase<JobDef>.GetNamed("ChangeBody", true);
         public readonly JobDef changeBodyAlienColor = DefDatabase<JobDef>.GetNamed("ChangeBodyAlienColor", true);
 
         public static IEnumerable<CurrentEditorEnum> GetSupportedEditors(bool isAlien)
@@ -23,6 +31,9 @@ namespace ChangeMirror
             {
                 yield return CurrentEditorEnum.ChangeMirrorAlienSkinColor;
             }
+
+            if (ModsConfig.IdeologyActive)
+                yield return CurrentEditorEnum.ChangeMirrorFavoriteColor;
         }
 
         [DebuggerHidden]
@@ -36,7 +47,7 @@ namespace ChangeMirror
                     "ChangeMirror.ChangeApparelColors".Translate(),
                     delegate
                     {
-                        Job job = new Job(this.changeApparelColorJobDef, this);
+                        Job job = new Job(JobDefOfCM.ChangeApparelColor, this);
                         pawn.jobs.TryTakeOrderedJob(job);
                     }));
             }
@@ -47,7 +58,7 @@ namespace ChangeMirror
                     "ChangeMirror.ChangeHair".Translate(),
                     delegate
                     {
-                        Job job = new Job(this.changeHairStyleJobDef, this);
+                        Job job = new Job(JobDefOfCM.ChangeHairStyle, this);
                         pawn.jobs.TryTakeOrderedJob(job);
                     }));
             }
@@ -58,7 +69,7 @@ namespace ChangeMirror
                     "ChangeMirror.ChangeBody".Translate(),
                     delegate
                     {
-                        Job job = new Job(this.changeBodyJobDef, this);
+                        Job job = new Job(JobDefOfCM.ChangeBody, this);
                         pawn.jobs.TryTakeOrderedJob(job);
                     }));
 
@@ -72,6 +83,18 @@ namespace ChangeMirror
                             pawn.jobs.TryTakeOrderedJob(job);
                         }));
                 }
+            }
+
+            if (ModsConfig.IdeologyActive)
+            {
+                list.Add(new FloatMenuOption(
+                    "ChangeMirror.ChangeFavoriteColor".Translate(),
+                    delegate
+                    {
+                        Job job = new Job(JobDefOfCM.ChangeFavoriteColor, this);
+                        pawn.jobs.TryTakeOrderedJob(job);
+                    }));
+                
             }
             return list;
         }

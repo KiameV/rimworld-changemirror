@@ -75,6 +75,7 @@
     <Compile Include="DresserJobDriver\JobDriver_ChangeApparelColor.cs" />
     <Compile Include="DresserJobDriver\JobDriver_ChangeBodyAlienColor.cs" />
     <Compile Include="DresserJobDriver\JobDriver_ChangeBody.cs" />
+    <Compile Include="DresserJobDriver\JobDriver_ChangeFavoriteColor.cs" />
     <Compile Include="DresserJobDriver\JobDriver_ChangeHairStyle.cs" />
     <Compile Include="GradientHairColorUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="UI\DTO\SelectionWidgetDTOs\ASelectionWidgetDTO.cs" />
     <Compile Include="UI\DTO\SelectionWidgetDTOs\BodyTypeSelectionDTO.cs" />
     <Compile Include="UI\DTO\SelectionWidgetDTOs\EditorTypeSelectionDTO.cs" />
+    <Compile Include="UI\DTO\SelectionWidgetDTOs\FavoriteColorSelectionDTO.cs" />
     <Compile Include="UI\DTO\SelectionWidgetDTOs\GenderSelectionDTO.cs" />
     <Compile Include="UI\DTO\SelectionWidgetDTOs\HairColorSelectionDTO.cs" />
     <Compile Include="UI\DTO\SelectionWidgetDTOs\HairStyleSelectionDTO.cs" />

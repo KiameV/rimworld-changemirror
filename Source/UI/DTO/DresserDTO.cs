@@ -46,13 +46,16 @@ namespace ChangeMirror.UI.DTO
 
         public BodyTypeSelectionDTO BodyTypeSelectionDto { get; protected set; }
         public GenderSelectionDTO GenderSelectionDto { get; protected set; }
+        public SelectedStyle SelectedStyle = SelectedStyle.Hair;
         public HairStyleSelectionDTO HairStyleSelectionDto { get; protected set; }
+        public BeardStyleSelectionDTO BeardStyleSelectionDto { get; protected set; }
         public HairColorSelectionDTO HairColorSelectionDto { get; protected set; }
         public HairColorSelectionDTO GradientHairColorSelectionDto { get; protected set; }
         public ApparelColorSelectionsContainer ApparelSelectionsContainer { get; protected set; }
         public ApparelLayerSelectionsContainer ApparelLayerSelectionsContainer { get; protected set; }
         public SliderWidgetDTO SkinColorSliderDto { get; protected set; }
         public HeadTypeSelectionDTO HeadTypeSelectionDto { get; protected set; }
+        public FavoriteColorSelectionDTO FavoriteColorDto { get; protected set; }
 
         public SelectionColorWidgetDTO AlienSkinColorPrimary { get; protected set; }
         public SelectionColorWidgetDTO AlienSkinColorSecondary { get; protected set; }
@@ -84,6 +87,8 @@ namespace ChangeMirror.UI.DTO
             this.GenderSelectionDto = null;
             this.HairStyleSelectionDto = null;
             this.HairColorSelectionDto = null;
+            this.BeardStyleSelectionDto = null;
+            this.FavoriteColorDto = null;
             this.GradientHairColorSelectionDto = null;
             this.SkinColorSliderDto = null;
             this.HeadTypeSelectionDto = null;
@@ -128,12 +133,13 @@ namespace ChangeMirror.UI.DTO
                     this.BodyTypeSelectionDto.Gender = (Gender)this.GenderSelectionDto.SelectedItem;
                     this.HairStyleSelectionDto.Gender = (Gender)this.GenderSelectionDto.SelectedItem;
                     this.HeadTypeSelectionDto.Gender = (Gender)this.GenderSelectionDto.SelectedItem;
+                    this.BeardStyleSelectionDto.Gender = (Gender)this.GenderSelectionDto.SelectedItem;
                 };
             }
 
             if (this.EditorTypeSelectionDto.Contains(CurrentEditorEnum.ChangeMirrorHair))
             {
-                this.HairStyleSelectionDto = new HairStyleSelectionDTO(this.Pawn.story.hairDef, this.Pawn.gender);
+                this.HairStyleSelectionDto = new HairStyleSelectionDTO(this.Pawn.story.hairDef, this.Pawn.gender, Settings.ShareHairStyles);
 
                 ColorPresetsDTO hairColorPresets = IOUtil.LoadColorPresets(ColorPresetType.Hair);
                 this.HairColorSelectionDto = new HairColorSelectionDTO(this.Pawn.story.hairColor, hairColorPresets);
@@ -146,6 +152,14 @@ namespace ChangeMirror.UI.DTO
                     }
                     this.GradientHairColorSelectionDto = new HairColorSelectionDTO(color, hairColorPresets, enabled);
                 }
+
+                this.BeardStyleSelectionDto = new BeardStyleSelectionDTO(this.Pawn.style.beardDef, this.Pawn.gender);
+            }
+
+            if (ModsConfig.IdeologyActive && this.EditorTypeSelectionDto.Contains(CurrentEditorEnum.ChangeMirrorFavoriteColor) && this.Pawn.story.favoriteColor.HasValue)
+            {
+                ColorPresetsDTO favoriteColorPresets = IOUtil.LoadColorPresets(ColorPresetType.FavoriteColor);
+                this.FavoriteColorDto = new FavoriteColorSelectionDTO(this.Pawn.story.favoriteColor.Value, favoriteColorPresets);
             }
         }
 
@@ -185,6 +199,10 @@ namespace ChangeMirror.UI.DTO
                 this.SkinColorSliderDto.UpdatePawnListener += updatePawn;
             if (this.HeadTypeSelectionDto != null)
                 this.HeadTypeSelectionDto.UpdatePawnListener += updatePawn;
+            if (this.BeardStyleSelectionDto != null)
+                this.BeardStyleSelectionDto.UpdatePawnListener += updatePawn;
+            if (this.FavoriteColorDto != null)
+                this.FavoriteColorDto.UpdatePawnListener += updatePawn;
 
             if (this.AlienSkinColorPrimary != null)
                 this.AlienSkinColorPrimary.UpdatePawnListener += updatePawn;
@@ -202,34 +220,25 @@ namespace ChangeMirror.UI.DTO
             Log.Warning(System.Environment.NewLine + "DresserDTO.Begin ResetToDefault");
 #endif
             // Gender must happen first
-            if (this.GenderSelectionDto != null)
-                this.GenderSelectionDto.ResetToDefault();
-            if (this.BodyTypeSelectionDto != null)
-                this.BodyTypeSelectionDto.ResetToDefault();
-            if (this.HairStyleSelectionDto != null)
-                this.HairStyleSelectionDto.ResetToDefault();
-            if (this.HairColorSelectionDto != null)
-                this.HairColorSelectionDto.ResetToDefault();
-            if (this.GradientHairColorSelectionDto != null)
-                this.GradientHairColorSelectionDto.ResetToDefault();
-            if (this.ApparelSelectionsContainer != null)
-                this.ApparelSelectionsContainer.ResetToDefault();
-            if (this.ApparelLayerSelectionsContainer != null)
-                this.ApparelLayerSelectionsContainer.ResetToDefault();
-            if (this.SkinColorSliderDto != null)
-                this.SkinColorSliderDto.ResetToDefault();
-            if (this.HeadTypeSelectionDto != null)
-                this.HeadTypeSelectionDto.ResetToDefault();
+            this.GenderSelectionDto?.ResetToDefault();
+            this.BodyTypeSelectionDto?.ResetToDefault();
+            this.HairStyleSelectionDto?.ResetToDefault();
+            this.HairColorSelectionDto?.ResetToDefault();
+            this.GradientHairColorSelectionDto?.ResetToDefault();
+            this.ApparelSelectionsContainer?.ResetToDefault();
+            this.ApparelLayerSelectionsContainer?.ResetToDefault();
+            this.SkinColorSliderDto?.ResetToDefault();
+            this.HeadTypeSelectionDto?.ResetToDefault();
+            this.BeardStyleSelectionDto?.ResetToDefault();
+            this.FavoriteColorDto?.ResetToDefault();
 
             if (this.originalAgeBioTicks != long.MinValue)
                 this.Pawn.ageTracker.AgeBiologicalTicks = this.originalAgeBioTicks;
             if (this.originalAgeChronTicks != long.MinValue)
                 this.Pawn.ageTracker.AgeChronologicalTicks = this.originalAgeChronTicks;
             
-            if (this.AlienSkinColorPrimary != null)
-                this.AlienSkinColorPrimary.ResetToDefault();
-            if (this.AlienSkinColorSecondary != null)
-                this.AlienSkinColorSecondary.ResetToDefault();
+            this.AlienSkinColorPrimary?.ResetToDefault();
+            this.AlienSkinColorSecondary?.ResetToDefault();
             //this.AlienHairColorPrimary?.ResetToDefault();
             //this.AlienHairColorSecondary?.ResetToDefault();
 #if TRACE

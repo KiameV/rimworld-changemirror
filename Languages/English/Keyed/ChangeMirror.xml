@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+	<!-- New for 1.3 -->
+	<ChangeMirrorFavoriteColor>Favorite Color</ChangeMirrorFavoriteColor>
+	<ChangeMirror.ChangeFavoriteColor>Change Favorite Color</ChangeMirror.ChangeFavoriteColor>
+	<ChangeMirror.BeardStyle>Beard Style</ChangeMirror.BeardStyle>
+	
 	<!-- Window Labels -->
 	<ChangeMirror.MirrorLabel>Mirror</ChangeMirror.MirrorLabel>
 	

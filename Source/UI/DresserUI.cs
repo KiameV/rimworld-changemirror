@@ -60,8 +60,9 @@ namespace ChangeMirror.UI
         {
             base.PostClose();
             Prefs.HatsOnlyOnMap = this.originalHatsHideSetting;
-            this.dresserDto.Pawn.Drawer.renderer.graphics.ResolveAllGraphics();
             PortraitsCache.SetDirty(this.dresserDto.Pawn);
+            GlobalTextureAtlasManager.TryMarkPawnFrameSetDirty(this.dresserDto.Pawn);
+            this.dresserDto.Pawn.Drawer.renderer.graphics.ResolveAllGraphics();
         }
         
         public override void DoWindowContents(Rect inRect)
@@ -99,10 +100,10 @@ namespace ChangeMirror.UI
                 switch ((CurrentEditorEnum)this.dresserDto.EditorTypeSelectionDto.SelectedItem)
                 {
                     case CurrentEditorEnum.ChangeMirrorApparelColor:
-                        WidgetUtil.AddAppararelColorSelectionWidget(editorLeft, editorTop, editorWidth, this.dresserDto.ApparelSelectionsContainer, this.GetClearColorCallback());
+                        WidgetUtil.AddAppararelColorSelectionWidget(editorLeft, editorTop, editorWidth, this.dresserDto.ApparelSelectionsContainer, this.GetClearColorCallback(), this.dresserDto.Pawn.story.favoriteColor);
                         break;
                     case CurrentEditorEnum.ChangeMirrorApparelLayerColor:
-                        WidgetUtil.AddAppararelColorByLayerSelectionWidget(editorLeft, editorTop, editorWidth, this.dresserDto.Pawn, this.dresserDto.ApparelLayerSelectionsContainer, this.GetClearColorCallback());
+                        WidgetUtil.AddAppararelColorByLayerSelectionWidget(editorLeft, editorTop, editorWidth, this.dresserDto.Pawn, this.dresserDto.ApparelLayerSelectionsContainer, this.GetClearColorCallback(), this.dresserDto.Pawn.story.favoriteColor);
                         break;
                     case CurrentEditorEnum.ChangeMirrorBody:
                         bool isShowing = false;
@@ -168,11 +169,14 @@ namespace ChangeMirror.UI
                                 height += 250;
                             }*/
 
-                            WidgetUtil.AddListBoxWidget(editorLeft, editorTop, editorWidth, height, "ChangeMirror.HairStyle".Translate() + ":", this.dresserDto.HairStyleSelectionDto);
+                            WidgetUtil.AddListBoxWidget(editorLeft, editorTop, editorWidth, height,
+                                ref this.dresserDto.SelectedStyle,
+                                "ChangeMirror.HairStyle".Translate(), this.dresserDto.HairStyleSelectionDto,
+                                "ChangeMirror.BeardStyle".Translate(), this.dresserDto.BeardStyleSelectionDto);
 
                             //if (showHairColor)
                             //{
-                            WidgetUtil.AddColorSelectorWidget(editorLeft, editorTop + listboxHeight + 10f, editorWidth, this.dresserDto.HairColorSelectionDto, this.dresserDto.HairColorSelectionDto.ColorPresetsDTO);
+                            WidgetUtil.AddColorSelectorWidget(editorLeft, editorTop + listboxHeight + 10f, editorWidth, this.dresserDto.HairColorSelectionDto, this.dresserDto.HairColorSelectionDto.ColorPresetsDTO, this.dresserDto.Pawn.story.favoriteColor);
                             //}
 
                             if (this.dresserDto.GradientHairColorSelectionDto != null)
@@ -181,12 +185,19 @@ namespace ChangeMirror.UI
                                 Widgets.CheckboxLabeled(new Rect(15f, y + 5f, 120f, 24f), "GradientHairTitle".Translate(), ref this.dresserDto.GradientHairColorSelectionDto.IsGradientEnabled);
                                 if (this.dresserDto.GradientHairColorSelectionDto.IsGradientEnabled)
                                 {
-                                    WidgetUtil.AddColorSelectorWidget(15f, editorTop + listboxHeight + 10f, editorWidth, this.dresserDto.GradientHairColorSelectionDto, this.dresserDto.HairColorSelectionDto.ColorPresetsDTO);
+                                    WidgetUtil.AddColorSelectorWidget(15f, editorTop + listboxHeight + 10f, editorWidth, this.dresserDto.GradientHairColorSelectionDto, this.dresserDto.HairColorSelectionDto.ColorPresetsDTO, this.dresserDto.Pawn.story.favoriteColor);
                                 }
                             }
                         }
                         break;
 
+                    case CurrentEditorEnum.ChangeMirrorFavoriteColor:
+                        if (this.dresserDto.FavoriteColorDto != null)
+                        {
+                            Text.Font = GameFont.Tiny;
+                            WidgetUtil.AddFavoriteColorSelectorWidget(editorLeft, editorTop, editorWidth, this.dresserDto.FavoriteColorDto, this.dresserDto.FavoriteColorDto.ColorPresetsDTO);
+                        }
+                        break;
 
                     case CurrentEditorEnum.ChangeMirrorAlienSkinColor:
                         if (this.dresserDto.AlienSkinColorPrimary != null)
@@ -196,7 +207,7 @@ namespace ChangeMirror.UI
                             GUI.Label(new Rect(editorLeft, editorTop, editorWidth, 30), "ChangeMirror.AlienPrimarySkinColor".Translate());
                             Text.Font = GameFont.Small;
 
-                            WidgetUtil.AddColorSelectorWidget(editorLeft, editorTop + 40, editorWidth, this.dresserDto.AlienSkinColorPrimary, null);
+                            WidgetUtil.AddColorSelectorWidget(editorLeft, editorTop + 40, editorWidth, this.dresserDto.AlienSkinColorPrimary, null, this.dresserDto.Pawn.story.favoriteColor);
                         }
                         if (this.dresserDto.AlienSkinColorSecondary != null)
                         {
@@ -205,7 +216,7 @@ namespace ChangeMirror.UI
                             GUI.Label(new Rect(editorLeft, editorTop + 260, editorWidth, 30), "ChangeMirror.AlienSecondarySkinColor".Translate());
                             Text.Font = GameFont.Small;
 
-                            WidgetUtil.AddColorSelectorWidget(editorLeft, editorTop + 300, editorWidth, this.dresserDto.AlienSkinColorSecondary, null);
+                            WidgetUtil.AddColorSelectorWidget(editorLeft, editorTop + 300, editorWidth, this.dresserDto.AlienSkinColorSecondary, null, this.dresserDto.Pawn.story.favoriteColor);
                         }
                         break;
 
@@ -339,18 +350,18 @@ namespace ChangeMirror.UI
 
                 if (this.dresserDto != null)
                 {
-                    if (this.dresserDto.ApparelSelectionsContainer != null &&
-                        this.dresserDto.ApparelSelectionsContainer.ColorPresetsDTO != null &&
-                        this.dresserDto.ApparelSelectionsContainer.ColorPresetsDTO.IsModified == true)
+                    if (this.dresserDto.ApparelSelectionsContainer?.ColorPresetsDTO?.IsModified == true)
                     {
                         IOUtil.SaveColorPresets(ColorPresetType.Apparel, this.dresserDto.ApparelSelectionsContainer.ColorPresetsDTO);
                     }
 
-                    if (this.dresserDto.HairColorSelectionDto != null &&
-                        this.dresserDto.HairColorSelectionDto.ColorPresetsDTO != null &&
-                        this.dresserDto.HairColorSelectionDto.ColorPresetsDTO.IsModified == true)
+                    if (this.dresserDto.HairColorSelectionDto?.ColorPresetsDTO?.IsModified == true)
                     {
                         IOUtil.SaveColorPresets(ColorPresetType.Hair, this.dresserDto.HairColorSelectionDto.ColorPresetsDTO);
+                    }
+                    if (this.dresserDto.FavoriteColorDto?.ColorPresetsDTO?.IsModified == true)
+                    {
+                        IOUtil.SaveColorPresets(ColorPresetType.FavoriteColor, this.dresserDto.FavoriteColorDto.ColorPresetsDTO);
                     }
                 }
 
@@ -433,6 +444,10 @@ namespace ChangeMirror.UI
                 {
                     pawn.story.hairDef = (HairDef)value;
                 }
+                else if (sender is BeardStyleSelectionDTO)
+                {
+                    pawn.style.beardDef = (BeardDef)value;
+                }
                 else if (sender is HeadTypeSelectionDTO)
                 {
                     dresserDto.SetCrownType(value);
@@ -440,6 +455,10 @@ namespace ChangeMirror.UI
                 else if (sender is SliderWidgetDTO)
                 {
                     pawn.story.melanin = (float)value;
+                }
+                else if (sender is FavoriteColorSelectionDTO)
+                {
+                    pawn.story.favoriteColor = (Color)value;
                 }
             }
             rerenderPawn = true;

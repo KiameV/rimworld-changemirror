@@ -30,6 +30,7 @@ namespace ChangeMirror.UI.Enums
         ChangeMirrorApparelLayerColor,
         ChangeMirrorBody,
         ChangeMirrorAlienSkinColor,
+        ChangeMirrorFavoriteColor,
         //ChangeMirrorAlienHairColor,
     }
 }
